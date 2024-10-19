@@ -16,8 +16,13 @@ import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
+import org.bukkit.util.Vector;
 import wbe.lastHunters.LastHunters;
+import wbe.lastHunters.config.entities.Chicken;
 import wbe.lastHunters.config.entities.PoolMob;
+import wbe.lastHunters.config.locations.ChickenCannon;
 import wbe.lastHunters.hooks.WorldGuardManager;
 import wbe.lastHunters.rarities.Rarity;
 import wbe.lastHunters.rarities.Reward;
@@ -154,24 +159,6 @@ public class Utilities {
         }
     }
 
-    public PoolMob getRandomPoolMob() {
-        Random random = new Random();
-        int randomNumber = random.nextInt(LastHunters.config.maxPoolWeight);
-        int weight = 0;
-        Set<PoolMob> poolMobs = LastHunters.config.poolMobs;
-        PoolMob mob = null;
-
-        for(PoolMob poolMob : poolMobs) {
-            mob = poolMob;
-            weight += poolMob.getWeight();
-            if(randomNumber < weight) {
-                return poolMob;
-            }
-        }
-
-        return mob;
-    }
-
     public PoolMob searchPoolMob(String id) {
         for(PoolMob mob : LastHunters.config.poolMobs) {
             if(mob.getId().equalsIgnoreCase(id)) {
@@ -222,6 +209,76 @@ public class Utilities {
                 }
             }
         }
+    }
+
+    public void spawnChickensFromCannons() {
+        Random random = new Random();
+        for(ChickenCannon cannon : LastHunters.config.cannons) {
+            if(random.nextInt(100) > LastHunters.config.chickenCannonSuccessChance) {
+                continue;
+            }
+
+            Location cannonLocation = cannon.getLocation().clone().add(0.5, 1, 0.5);
+            Chicken randomChicken = getRandomChicken();
+            LivingEntity chicken = (LivingEntity) cannonLocation.getWorld().spawnEntity(cannonLocation, EntityType.CHICKEN);
+            if(randomChicken.isGlow()) {
+                chicken.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, PotionEffect.INFINITE_DURATION,
+                        1, false, false, false));
+            }
+            NamespacedKey mobKey = new NamespacedKey(plugin, "specialMob");
+            NamespacedKey chickenKey = new NamespacedKey(plugin, "chicken");
+            chicken.getPersistentDataContainer().set(mobKey, PersistentDataType.BOOLEAN, true);
+            chicken.getPersistentDataContainer().set(chickenKey, PersistentDataType.STRING, randomChicken.getId());
+
+            chicken.getEquipment().clear();
+            chicken.getPassengers().clear();
+            chicken.setCustomName(randomChicken.getName());
+            chicken.setCanPickupItems(false);
+            chicken.setCustomNameVisible(true);
+            chicken.setRemoveWhenFarAway(false);
+
+            double vectorX = Math.random() - 0.2;
+            double vectorY = 2;
+            double vectorZ = ((Math.random() * (3 - 1)) + 1) * -1;
+            Vector launch = new Vector(vectorX, vectorY, vectorZ);
+            chicken.setVelocity(launch);
+        }
+    }
+
+    private Chicken getRandomChicken() {
+        Random random = new Random();
+        int randomNumber = random.nextInt(LastHunters.config.maxChickensWeight);
+        int weight = 0;
+        Set<Chicken> chickens = LastHunters.config.chickens;
+        Chicken lastChicken = null;
+
+        for(Chicken chicken : chickens) {
+            lastChicken = chicken;
+            weight += chicken.getWeight();
+            if(randomNumber < weight) {
+                return chicken;
+            }
+        }
+
+        return lastChicken;
+    }
+
+    private PoolMob getRandomPoolMob() {
+        Random random = new Random();
+        int randomNumber = random.nextInt(LastHunters.config.maxPoolWeight);
+        int weight = 0;
+        Set<PoolMob> poolMobs = LastHunters.config.poolMobs;
+        PoolMob mob = null;
+
+        for(PoolMob poolMob : poolMobs) {
+            mob = poolMob;
+            weight += poolMob.getWeight();
+            if(randomNumber < weight) {
+                return poolMob;
+            }
+        }
+
+        return mob;
     }
 
     private FireworkMeta getRandomFirework(Firework firework) {

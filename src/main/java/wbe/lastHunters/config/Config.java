@@ -27,6 +27,8 @@ public class Config {
     public int refillChestsTime;
     public Sound catchFailSound;
     public int titleTime;
+    public int chickenCannonFireTime;
+    public int chickenCannonSuccessChance;
     public List<String> enabledWorlds;
 
     public boolean rodGlow;
@@ -64,6 +66,8 @@ public class Config {
         refillChestsTime = config.getInt("Config.refillChestsTime");
         catchFailSound = Sound.valueOf(config.getString("Config.catchFailSound"));
         titleTime = config.getInt("Config.titleTime");
+        chickenCannonFireTime = config.getInt("Config.chickenCannonFireTime");
+        chickenCannonSuccessChance = config.getInt("Config.chickenCannonSuccessChance");
         enabledWorlds = config.getStringList("Config.enabledWorlds");
 
         rodGlow = config.getBoolean("Items.rod.glow");
@@ -133,9 +137,9 @@ public class Config {
         Set<String> configCannons = cannonConfig.getConfigurationSection("Cannons").getKeys(false);
         for(String cannon : configCannons) {
             World world = Bukkit.getWorld(cannonConfig.getString("Cannons." + cannon + ".world"));
-            double x = cannonConfig.getDouble("Cannons." + cannon + "x");
-            double y = cannonConfig.getDouble("Cannons." + cannon + "y");
-            double z = cannonConfig.getDouble("Cannons." + cannon + "z");
+            double x = cannonConfig.getDouble("Cannons." + cannon + ".x");
+            double y = cannonConfig.getDouble("Cannons." + cannon + ".y");
+            double z = cannonConfig.getDouble("Cannons." + cannon + ".z");
             Location location = new Location(world, x, y, z);
             cannons.add(new ChickenCannon(cannon, location));
         }
@@ -147,9 +151,9 @@ public class Config {
         for(String chest : configChests) {
             Material type = Material.valueOf(chestsConfig.getString("Chests." + chest + ".type"));
             World world = Bukkit.getWorld(chestsConfig.getString("Chests." + chest + ".world"));
-            double x = chestsConfig.getDouble("Chests." + chest + "x");
-            double y = chestsConfig.getDouble("Chests." + chest + "y");
-            double z = chestsConfig.getDouble("Chests." + chest + "z");
+            double x = chestsConfig.getDouble("Chests." + chest + ".x");
+            double y = chestsConfig.getDouble("Chests." + chest + ".y");
+            double z = chestsConfig.getDouble("Chests." + chest + ".z");
             Location location = new Location(world, x, y, z);
             int minRewards = chestsConfig.getInt("Chests." + chest + ".min_rewards");
             int maxRewards = chestsConfig.getInt("Chests." + chest + ".max_rewards");
@@ -173,9 +177,9 @@ public class Config {
         Set<String> configSpots = spotsConfig.getConfigurationSection("Spots").getKeys(false);
         for(String spot : configSpots) {
             World world = Bukkit.getWorld(spotsConfig.getString("Spots." + spot + ".world"));
-            double x = spotsConfig.getDouble("Spots." + spot + "x");
-            double y = spotsConfig.getDouble("Spots." + spot + "y");
-            double z = spotsConfig.getDouble("Spots." + spot + "z");
+            double x = spotsConfig.getDouble("Spots." + spot + ".x");
+            double y = spotsConfig.getDouble("Spots." + spot + ".y");
+            double z = spotsConfig.getDouble("Spots." + spot + ".z");
             Location location = new Location(world, x, y, z);
             spots.add(new BowSpot(spot, location));
         }
