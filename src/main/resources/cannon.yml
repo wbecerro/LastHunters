@@ -1,0 +1,31 @@
+Cannons:
+  cannon1:
+    world: Halloween
+    x: -219
+    y: -6
+    z: 359
+  cannon2:
+    world: Halloween
+    x: -227
+    y: -6
+    z: 359
+  cannon3:
+    world: Halloween
+    x: -211
+    y: -6
+    z: 359
+  cannon4:
+    world: Halloween
+    x: -198
+    y: -6
+    z: 359
+  cannon5:
+    world: Halloween
+    x: -190
+    y: -6
+    z: 359
+  cannon6:
+    world: Halloween
+    x: -182
+    y: -6
+    z: 359

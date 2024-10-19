@@ -1,0 +1,86 @@
+Spots:
+  spot1:
+    world: Halloween
+    x: -228
+    y: -5
+    z: 360
+  spot2:
+    world: Halloween
+    x: -225
+    y: -5
+    z: 360
+  spot3:
+    world: Halloween
+    x: -220
+    y: -5
+    z: 360
+  spot4:
+    world: Halloween
+    x: -218
+    y: -5
+    z: 360
+  spot5:
+    world: Halloween
+    x: -212
+    y: -5
+    z: 360
+  spot6:
+    world: Halloween
+    x: -209
+    y: -5
+    z: 360
+  spot7:
+    world: Halloween
+    x: -201
+    y: -5
+    z: 360
+  spot8:
+    world: Halloween
+    x: -197
+    y: -5
+    z: 360
+  spot9:
+    world: Halloween
+    x: -192
+    y: -5
+    z: 360
+  spot10:
+    world: Halloween
+    x: -187
+    y: -5
+    z: 360
+  spot11:
+    world: Halloween
+    x: -185
+    y: -5
+    z: 360
+  spot12:
+    world: Halloween
+    x: -180
+    y: -5
+    z: 360
+  spot13:
+    world: Halloween
+    x: -195
+    y: 1
+    z: 362
+  spot14:
+    world: Halloween
+    x: -214
+    y: 1
+    z: 362
+  spot15:
+    world: Halloween
+    x: -213
+    y: 6
+    z: 363
+  spot16:
+    world: Halloween
+    x: -205
+    y: 6
+    z: 363
+  spot17:
+    world: Halloween
+    x: -197
+    y: 6
+    z: 363

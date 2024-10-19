@@ -1,0 +1,97 @@
+Chests:
+  chest1:
+    world: Halloween
+    type: ORANGE_SHULKER_BOX
+    x: -207
+    y: -24
+    z: 120
+    min_rewards: 1
+    max_rewards: 4
+    rewards:
+      epic: 8000
+      legendary: 1500
+      mythic: 500
+  chest2:
+    world: Halloween
+    type: ORANGE_SHULKER_BOX
+    x: -271
+    y: -21
+    z: 161
+    min_rewards: 1
+    max_rewards: 4
+    rewards:
+      epic: 8000
+      legendary: 1500
+      mythic: 500
+  chest3:
+    world: Halloween
+    type: ORANGE_SHULKER_BOX
+    x: -255
+    y: -20
+    z: 320
+    min_rewards: 1
+    max_rewards: 4
+    rewards:
+      epic: 8000
+      legendary: 1500
+      mythic: 500
+  chest4:
+    world: Halloween
+    type: ORANGE_SHULKER_BOX
+    x: -197
+    y: -25
+    z: 279
+    min_rewards: 1
+    max_rewards: 4
+    rewards:
+      epic: 8000
+      legendary: 1500
+      mythic: 500
+  chest5:
+    world: Halloween
+    type: ORANGE_SHULKER_BOX
+    x: -174
+    y: -20
+    z: 196
+    min_rewards: 1
+    max_rewards: 4
+    rewards:
+      epic: 8000
+      legendary: 1500
+      mythic: 500
+  chest6:
+    world: Halloween
+    type: ORANGE_SHULKER_BOX
+    x: -88
+    y: -22
+    z: 243
+    min_rewards: 1
+    max_rewards: 4
+    rewards:
+      epic: 8000
+      legendary: 1500
+      mythic: 500
+  chest7:
+    world: Halloween
+    type: ORANGE_SHULKER_BOX
+    x: -123
+    y: -20
+    z: 326
+    min_rewards: 1
+    max_rewards: 4
+    rewards:
+      epic: 8000
+      legendary: 1500
+      mythic: 500
+  chest8:
+    world: Halloween
+    type: ORANGE_SHULKER_BOX
+    x: -173
+    y: -19
+    z: 288
+    min_rewards: 1
+    max_rewards: 4
+    rewards:
+      epic: 8000
+      legendary: 1500
+      mythic: 500

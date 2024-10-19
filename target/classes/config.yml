@@ -1,0 +1,196 @@
+Messages:
+  noPermission: "&b[&cHalloween&b] &eNo tienes permiso para hacer eso."
+  notEnoughArgs: "&b[&cHalloween&b] &eNo has especificado suficientes argumentos."
+  undefinedHead: "&b[&cHalloween&b] &eLa cabeza %head% no existe."
+  noReward: "&b[&cHalloween&b] &eEste espíritu no tenía regalos."
+  wrongHeadLocation: "&b[&cHalloween&b] &eEse catalizador no se puede colocar ahí."
+  headPlaced: "&b[&cHalloween&b] &e%player% ha colocado un &6&lCatalizador de %bossHead_playername% &e%current_heads_placed%/%max%."
+  bossSpawning: "&b[&cHalloween&b] &eTodos los catalizadores han sido colocados, el ser divine despierta."
+  bossSpawned: "&b[&cHalloween&b] &e%boss% ha aparecido para repartir miedo y desesperación."
+  cannotPlace: "&b[&cHalloween&b] &eNo puedes colocar eso ahí."
+  lowRodTitle: "&c&lCUIDADO"
+  lowRodSubtitle: "&aTu caña tiene menos de 10 usos"
+  cannotUseBow: "&b[&cHalloween&b] &eNo puedes usar el &5&lDestructor de almas &eaquí."
+  bowBroken: "&b[&cHalloween&b] &eTu &5&lDestructor de almas &ese ha roto."
+  inventoryFullTitle: "&cInventario lleno"
+  lowBowUses: "&c&l&nUsos restantes:&e&l %uses%"
+  doubleDrop: "&b[&cHalloween&b] &eHas conseguido una doble recompensa."
+  failedCatch:
+    - "&cMás suerte la próxima vez."
+    - "&c¿Para que quieres coger esa cosa?"
+    - "&cEs posible que el espíritu no quiera ser tu amiguito."
+    - "&c¿Le has dicho UwU al espíritu para ser su amigo?"
+    - "&c¿Qué tal si pruebas a pagarle primero?"
+  help:
+    - "&d-===- &b[&cHalloween&b] &d-===-"
+    - "&b/lasthunters &eMuestra esta página."
+    - "&b/lasthunters rod <Probabilidad> [Jugador] &eDa una &6&lCaña Estigia&e."
+    - "&b/lasthunters bow <Usos> [Jugador] &eDa un &5&lDestructor de almas&e."
+    - "&b/lasthunters head <Cabeza> [Jugador] &eDa un &6&lCatalizador&e."
+    - "&b/lasthunters removeChickens &eElimina todas las &5Almas&e."
+    - "&b/lasthunters fishChance <Probabilidad> &eAñade probabilidad de pescar."
+    - "&b/lasthunters doubleChance <Probabilidad> &eAñade probabilidad de doble recompensa."
+    - ""
+    - "&eLeyenda: &b<> &eObligatorio  &b[] &eOpcional"
+    - "&d-===- &b[&cHalloween&b] &d-===-"
+
+Config:
+  poolMobsRespawnTime: 30
+  maxRegionMobs: 15
+  enableChests: true
+  enableChickens: true
+  refillChestsTime: 900
+  catchFailSound: ENTITY_ALLAY_HURT
+  titleTime: 2
+  enabledWorlds:
+    - Halloween
+
+Chickens:
+  normal:
+    name: "&5&lAlma"
+    weight: 100
+    glow: false
+    rewards:
+      empty: 2000
+      rare: 4020
+      epic: 2500
+      legendary: 1450
+      mythic: 30
+  bigPrize:
+    name: "&e&lPremio gordo"
+    weight: 2
+    glow: true
+    rewards:
+      empty: 1000
+      legendary: 6000
+      mythic: 2500
+      divine: 500
+
+Items:
+  rod:
+    glow: true
+    name: "&6&lCaña Estigia"
+    lore:
+      - "&7"
+      - "&7Caña espiritual que puede interactuar con"
+      - "&7los espíritus y hacer que sean más amistosos."
+      - "&7Probabilidad: &e%chance%%"
+  bow:
+    glow: true
+    name: "&5&lDestructor de almas"
+    lore:
+      - "&7"
+      - "&7Este arco puede erradicar"
+      - "&7las almas y obtener premios."
+      - "&7Usos&e: %uses%"
+
+Boss:
+  mob: Wbe
+  spawn:
+    world: Halloween
+    x: -310
+    y: -22
+    z: 118
+
+Heads:
+  wbe:
+    location:
+      world: Halloween
+      x: -319
+      y: -22
+      z: 109
+    signature:
+    name: "&6&lCatalizador de wbecerra"
+    lore:
+      - "&7"
+      - "&7Sirve para canalizar energía divina"
+      - "&7hacia el altar para invocar a Dios."
+  yuch:
+    location:
+      world: Halloween
+      x: -319
+      y: -22
+      z: 126
+    signature:
+    name: "&6&lCatalizador de Yuch135"
+    lore:
+      - "&7"
+      - "&7Sirve para canalizar energía divina"
+      - "&7hacia el altar para invocar a Dios."
+  magra:
+    location:
+      world: Halloween
+      x: -302
+      y: -22
+      z: 109
+    signature:
+    name: "&6&lCatalizador de fros"
+    lore:
+      - "&7"
+      - "&7Sirve para canalizar energía divina"
+      - "&7hacia el altar para invocar a Dios."
+
+Pool:
+  vindicator:
+    weight: 4895
+    entity: VINDICATOR
+    catchChance: 20
+    name: "&5Alma en Pena"
+    rewards:
+      empty: 4800
+      common: 3000
+      uncommon: 2000
+      rare: 200
+  witch:
+    weight: 2900
+    entity: WITCH
+    catchChance: 17
+    name: "&5Moira"
+    rewards:
+      empty: 4900
+      common: 2500
+      uncommon: 20
+      rare: 500
+      epic: 100
+  wolf:
+    weight: 1500
+    entity: WOLF
+    catchChance: 14
+    name: "&5Cachorro de Cerbero"
+    rewards:
+      empty: 4900
+      uncommon: 2500
+      rare: 2000
+      epic: 500
+      legendary: 100
+  glow_squid:
+    weight: 600
+    entity: GLOW_SQUID
+    catchChance: 10
+    name: "&5Mini Kraken"
+    rewards:
+      empty: 4980
+      rare: 2500
+      epic: 2000
+      legendary: 500
+      mythic: 20
+  silverfish:
+    weight: 100
+    entity: SILVERFISH
+    catchChance: 5
+    name: "&5Erinia"
+    rewards:
+      empty: 500
+      epic: 5410
+      legendary: 4000
+      mythic: 60
+      divine: 30
+  tadpole:
+    weight: 5
+    entity: TADPOLE
+    catchChance: 1
+    name: "&5&lCría de Hidra"
+    rewards:
+      empty: 5000
+      mythic: 3500
+      divine: 1500

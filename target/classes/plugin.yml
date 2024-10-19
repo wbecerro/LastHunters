@@ -1,0 +1,11 @@
+name: LastHunters
+version: 1.0
+main: wbe.lastHunters.LastHunters
+api-version: 1.21
+author: wbe
+depend: [WorldGuard]
+commands:
+  LastHunters:
+    description: LastHunters main command
+    aliases: [lh, lasth, lhunters]
+    permission: lasthunters.command

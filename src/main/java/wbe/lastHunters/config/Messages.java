@@ -1,0 +1,52 @@
+package wbe.lastHunters.config;
+
+import org.bukkit.configuration.file.FileConfiguration;
+
+import java.util.List;
+
+public class Messages {
+
+    private FileConfiguration config;
+
+    public String noPermission;
+    public String notEnoughArgs;
+    public String undefinedHead;
+    public String noReward;
+    public String wrongHeadLocation;
+    public String headPlaced;
+    public String bossSpawning;
+    public String bossSpawned;
+    public String cannotPlace;
+    public String lowRodTitle;
+    public String lowRodSubtitle;
+    public String cannotUseBow;
+    public String bowBroken;
+    public String inventoryFullTitle;
+    public String lowBowUses;
+    public String doubleDrop;
+    public List<String> failedCatch;
+    public List<String> help;
+
+    public Messages(FileConfiguration config) {
+        this.config = config;
+
+        noPermission = config.getString("Messages.noPermission").replace("&", "§");
+        notEnoughArgs = config.getString("Messages.notEnoughArgs").replace("&", "§");
+        undefinedHead = config.getString("Messages.undefinedHead").replace("&", "§");
+        noReward = config.getString("Messages.noReward").replace("&", "§");
+        wrongHeadLocation = config.getString("Messages.wrongHeadLocation").replace("&", "§");
+        headPlaced = config.getString("Messages.headPlaced").replace("&", "§");
+        bossSpawning = config.getString("Messages.bossSpawning").replace("&", "§");
+        bossSpawned = config.getString("Messages.bossSpawned").replace("&", "§");
+        cannotPlace = config.getString("Messages.cannotPlace").replace("&", "§");
+        lowRodTitle = config.getString("Messages.lowRodTitle").replace("&", "§");
+        lowRodSubtitle = config.getString("Messages.lowRodSubtitle").replace("&", "§");
+        cannotUseBow = config.getString("Messages.cannotUseBow").replace("&", "§");
+        bowBroken = config.getString("Messages.bowBroken").replace("&", "§");
+        inventoryFullTitle = config.getString("Messages.inventoryFullTitle").replace("&", "§");
+        lowBowUses = config.getString("Messages.lowBowUses").replace("&", "§");
+        doubleDrop = config.getString("Messages.doubleDrop").replace("&", "§");
+        failedCatch = config.getStringList("Messages.failedCatch");
+        help = config.getStringList("Messages.help");
+    }
+}
