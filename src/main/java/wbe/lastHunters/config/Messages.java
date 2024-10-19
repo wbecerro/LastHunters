@@ -20,12 +20,18 @@ public class Messages {
     public String lowRodSubtitle;
     public String cannotUseBow;
     public String bowBroken;
-    public String inventoryFullTitle;
     public String lowBowUses;
     public String doubleDrop;
     public String rodArguments;
     public String bowArguments;
     public String catalystArguments;
+    public String fishChanceArguments;
+    public String doubleChanceArguments;
+    public String addRewardArguments;
+    public String addedFishChance;
+    public String addedDoubleChance;
+    public String addedReward;
+    public String reload;
     public List<String> failedCatch;
     public List<String> help;
 
@@ -44,12 +50,18 @@ public class Messages {
         lowRodSubtitle = config.getString("Messages.lowRodSubtitle").replace("&", "§");
         cannotUseBow = config.getString("Messages.cannotUseBow").replace("&", "§");
         bowBroken = config.getString("Messages.bowBroken").replace("&", "§");
-        inventoryFullTitle = config.getString("Messages.inventoryFullTitle").replace("&", "§");
         lowBowUses = config.getString("Messages.lowBowUses").replace("&", "§");
         doubleDrop = config.getString("Messages.doubleDrop").replace("&", "§");
         rodArguments = config.getString("Messages.rodArguments").replace("&", "§");
         bowArguments = config.getString("Messages.bowArguments").replace("&", "§");
         catalystArguments = config.getString("Messages.catalystArguments").replace("&", "§");
+        fishChanceArguments = config.getString("Messages.fishChanceArguments").replace("&", "§");
+        doubleChanceArguments = config.getString("Messages.doubleChanceArguments").replace("&", "§");
+        addRewardArguments = config.getString("Messages.addRewardArguments").replace("&", "§");
+        addedFishChance = config.getString("Messages.addedFishChance").replace("&", "§");
+        addedDoubleChance = config.getString("Messages.addedDoubleChance").replace("&", "§");
+        addedReward = config.getString("Messages.addedReward").replace("&", "§");
+        reload = config.getString("Messages.reload").replace("&", "§");
         failedCatch = config.getStringList("Messages.failedCatch");
         help = config.getStringList("Messages.help");
     }

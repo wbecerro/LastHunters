@@ -95,6 +95,7 @@ public final class LastHunters extends JavaPlugin {
         createSpotsFile();
         messages = new Messages(configuration);
         config = new Config(configuration);
+        new Utilities().registerAllTeams(scoreboard);
     }
 
     private void createCannonFile() {

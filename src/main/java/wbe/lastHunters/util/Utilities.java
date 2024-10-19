@@ -121,6 +121,50 @@ public class Utilities {
         return 0;
     }
 
+    public void addRodChance(ItemStack item, int chance) {
+        NamespacedKey baseItemKey = new NamespacedKey(plugin, "rodChance");
+        String loreLine = LastHunters.config.rodChanceLore
+                .replace("%rodChance%", String.valueOf(chance));
+        ItemMeta meta = item.getItemMeta();
+
+        if(meta == null) {
+            meta = Bukkit.getItemFactory().getItemMeta(item.getType());
+        }
+
+        List<String> lore = new ArrayList<>();
+        if(meta.hasLore()) {
+            lore = meta.getLore();
+        }
+
+        lore.add(loreLine);
+        meta.setLore(lore);
+
+        meta.getPersistentDataContainer().set(baseItemKey, PersistentDataType.INTEGER, chance);
+        item.setItemMeta(meta);
+    }
+
+    public void addDoubleChance(ItemStack item, int chance) {
+        NamespacedKey baseItemKey = new NamespacedKey(plugin, "doubleChance");
+        String loreLine = LastHunters.config.doubleChanceLore
+                .replace("%doubleChance%", String.valueOf(chance));
+        ItemMeta meta = item.getItemMeta();
+
+        if(meta == null) {
+            meta = Bukkit.getItemFactory().getItemMeta(item.getType());
+        }
+
+        List<String> lore = new ArrayList<>();
+        if(meta.hasLore()) {
+            lore = meta.getLore();
+        }
+
+        lore.add(loreLine);
+        meta.setLore(lore);
+
+        meta.getPersistentDataContainer().set(baseItemKey, PersistentDataType.INTEGER, chance);
+        item.setItemMeta(meta);
+    }
+
     public Set<ProtectedRegion> getValidRegions(World world) {
         Set<ProtectedRegion> validRegions = new HashSet<>();
         RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
@@ -420,6 +464,8 @@ public class Utilities {
             }
         }, 15L * iterations + 1);
     }
+
+    public void
 
     private Chicken getRandomChicken() {
         Random random = new Random();

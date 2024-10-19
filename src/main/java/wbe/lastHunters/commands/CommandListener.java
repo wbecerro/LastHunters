@@ -5,6 +5,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import wbe.lastHunters.LastHunters;
 import wbe.lastHunters.items.Bow;
 import wbe.lastHunters.items.Catalyst;
@@ -109,6 +110,42 @@ public class CommandListener implements CommandExecutor {
                 } else {
                     player.getInventory().addItem(catalyst);
                 }
+            } else if(args[0].equalsIgnoreCase("fishChance")) {
+                if(!sender.hasPermission("lasthunters.command.fishChance")) {
+                    sender.sendMessage(LastHunters.messages.noPermission);
+                    return false;
+                }
+
+                if(args.length < 2) {
+                    sender.sendMessage(LastHunters.messages.notEnoughArgs);
+                    sender.sendMessage(LastHunters.messages.fishChanceArguments);
+                }
+
+                ItemStack item = player.getInventory().getItemInMainHand();
+                utilities.addRodChance(item, Integer.parseInt(args[1]));
+                sender.sendMessage(LastHunters.messages.addedFishChance);
+            } else if(args[0].equalsIgnoreCase("doubleChance")) {
+                if(!sender.hasPermission("lasthunters.command.doubleChance")) {
+                    sender.sendMessage(LastHunters.messages.noPermission);
+                    return false;
+                }
+
+                if(args.length < 2) {
+                    sender.sendMessage(LastHunters.messages.notEnoughArgs);
+                    sender.sendMessage(LastHunters.messages.doubleChanceArguments);
+                }
+
+                ItemStack item = player.getInventory().getItemInMainHand();
+                utilities.addDoubleChance(item, Integer.parseInt(args[1]));
+                sender.sendMessage(LastHunters.messages.addedDoubleChance);
+            } else if(args[0].equalsIgnoreCase("reload")) {
+                if(!sender.hasPermission("lasthunters.command.reload")) {
+                    sender.sendMessage(LastHunters.messages.noPermission);
+                    return false;
+                }
+
+                plugin.reloadConfiguration();
+                sender.sendMessage(LastHunters.messages.reload);
             }
         }
 

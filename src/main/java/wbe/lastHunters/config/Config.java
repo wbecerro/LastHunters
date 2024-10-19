@@ -43,6 +43,7 @@ public class Config {
     public String usesLore;
 
     public String rodChanceLore;
+    public String doubleChanceLore;
 
     public String bossName;
     public Location bossLocation;
@@ -87,6 +88,7 @@ public class Config {
         usesLore = config.getString("Items.bow.usesLore").replace("&", "§");
 
         rodChanceLore = config.getString("Items.rodChanceLore").replace("&", "§");
+        doubleChanceLore = config.getString("Items.doubleChanceLore").replace("&", "§");
 
         bossName = config.getString("Boss.mob");
         World world = Bukkit.getWorld(config.getString("Boss.spawn.world"));
@@ -117,12 +119,12 @@ public class Config {
         for(String rarity : configRarities) {
             String prefix = rewardsConfig.getString("Rarities." + rarity + ".prefix").replace("&", "§");
             String broadcast = "";
-            if(config.contains("Rarities." + rarity + ".broadcast")) {
-                broadcast = config.getString("Rarities." + rarity + ".broadcast").replace("&", "§");
+            if(rewardsConfig.contains("Rarities." + rarity + ".broadcast")) {
+                broadcast = rewardsConfig.getString("Rarities." + rarity + ".broadcast").replace("&", "§");
             }
             int fireworks = -1;
-            if(config.contains("Rarities." + rarity + ".fireworks")) {
-                fireworks = config.getInt("Rarities." + rarity + ".fireworks");
+            if(rewardsConfig.contains("Rarities." + rarity + ".fireworks")) {
+                fireworks = rewardsConfig.getInt("Rarities." + rarity + ".fireworks");
             }
             List<Reward> rewards = loadRewards(rarity);
             rarities.put(rarity, new Rarity(rarity, prefix, rewards, broadcast, fireworks));

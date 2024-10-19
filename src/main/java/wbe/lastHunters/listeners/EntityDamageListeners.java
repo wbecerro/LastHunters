@@ -14,6 +14,8 @@ import wbe.lastHunters.LastHunters;
 import wbe.lastHunters.config.entities.Chicken;
 import wbe.lastHunters.util.Utilities;
 
+import java.util.Random;
+
 public class EntityDamageListeners implements Listener {
 
     private LastHunters plugin = LastHunters.getInstance();
@@ -71,6 +73,12 @@ public class EntityDamageListeners implements Listener {
 
         Chicken chicken = utilities.searchChicken(damaged.getPersistentDataContainer().get(chickenKey, PersistentDataType.STRING));
         Player player = (Player) projectile.getShooter();
+        int doubleChance = utilities.getPlayerDoubleChance(player);
+        Random random = new Random();
+        if(random.nextInt(100) + 1 < doubleChance) {
+            player.sendMessage(LastHunters.messages.doubleDrop);
+            utilities.giveReward(player, chicken.getRandomRarity());
+        }
         utilities.giveReward(player, chicken.getRandomRarity());
         damaged.remove();
     }

@@ -47,6 +47,11 @@ public class PlayerFishListeners implements Listener {
 
         Random random = new Random();
         if(random.nextInt(100) + 1 < rodChance + poolMob.getCatchChance()) {
+            int doubleChance = utilities.getPlayerDoubleChance(player);
+            if(random.nextInt(100) + 1 < doubleChance) {
+                player.sendMessage(LastHunters.messages.doubleDrop);
+                utilities.giveReward(player, poolMob.getRandomRarity());
+            }
             utilities.giveReward(player, poolMob.getRandomRarity());
             String region = mob.getPersistentDataContainer().get(regionKey, PersistentDataType.STRING);
             PoolMob.spawnedMobs.put(region, PoolMob.spawnedMobs.get(region) - 1);
