@@ -1,5 +1,6 @@
 package wbe.lastHunters.config.locations;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
@@ -32,9 +33,9 @@ public class BowSpot {
 
     public boolean isPlayerHere(Player player) {
         Location location = player.getLocation();
-        if(Math.floor(location.getX()) == Math.floor(location.getX()) &&
-                Math.floor(location.getY()) == Math.floor(location.getY()) &&
-                Math.floor(location.getZ()) == Math.floor(location.getZ())) {
+        if(Math.floor(this.location.getX()) == Math.floor(location.getX()) &&
+                Math.floor(this.location.getY()) == Math.floor(location.getY()) &&
+                Math.floor(this.location.getZ()) == Math.floor(location.getZ())) {
             return true;
         }
 

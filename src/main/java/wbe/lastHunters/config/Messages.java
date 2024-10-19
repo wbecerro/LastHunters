@@ -24,6 +24,9 @@ public class Messages {
     public String inventoryFullTitle;
     public String lowBowUses;
     public String doubleDrop;
+    public String rodArguments;
+    public String bowArguments;
+    public String catalystArguments;
     public List<String> failedCatch;
     public List<String> help;
 
@@ -46,6 +49,9 @@ public class Messages {
         inventoryFullTitle = config.getString("Messages.inventoryFullTitle").replace("&", "§");
         lowBowUses = config.getString("Messages.lowBowUses").replace("&", "§");
         doubleDrop = config.getString("Messages.doubleDrop").replace("&", "§");
+        rodArguments = config.getString("Messages.rodArguments").replace("&", "§");
+        bowArguments = config.getString("Messages.bowArguments").replace("&", "§");
+        catalystArguments = config.getString("Messages.catalystArguments").replace("&", "§");
         failedCatch = config.getStringList("Messages.failedCatch");
         help = config.getStringList("Messages.help");
     }

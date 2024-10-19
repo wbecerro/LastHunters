@@ -17,7 +17,7 @@ public class WorldGuardManager {
         try {
             registry.register(poolFlag);
             poolMobsFlag = poolFlag;
-        } catch(FlagConflictException ex) {
+        } catch(Exception ex) {
             Flag<?> existing = registry.get("lasthunters-pool");
             if(existing instanceof StateFlag) {
                 poolMobsFlag = (StateFlag) existing;

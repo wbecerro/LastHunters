@@ -24,8 +24,10 @@ import org.bukkit.util.Vector;
 import wbe.lastHunters.LastHunters;
 import wbe.lastHunters.config.entities.Chicken;
 import wbe.lastHunters.config.entities.PoolMob;
+import wbe.lastHunters.config.locations.BowSpot;
 import wbe.lastHunters.config.locations.ChickenCannon;
 import wbe.lastHunters.hooks.WorldGuardManager;
+import wbe.lastHunters.items.CatalystType;
 import wbe.lastHunters.rarities.Rarity;
 import wbe.lastHunters.rarities.Reward;
 
@@ -171,6 +173,26 @@ public class Utilities {
         return null;
     }
 
+    public Chicken searchChicken(String id) {
+        for(Chicken chicken : LastHunters.config.chickens) {
+            if(chicken.getId().equalsIgnoreCase(id)) {
+                return chicken;
+            }
+        }
+
+        return null;
+    }
+
+    public CatalystType searchCatalyst(String id) {
+        for(CatalystType catalystType : LastHunters.config.catalystTypes) {
+            if(catalystType.getId().equalsIgnoreCase(id)) {
+                return catalystType;
+            }
+        }
+
+        return null;
+    }
+
     public void giveReward(Player player, Rarity rarity) {
         if(rarity == null) {
             player.sendMessage(LastHunters.messages.noReward);
@@ -272,6 +294,16 @@ public class Utilities {
         }
     }
 
+    public BowSpot getValidSpot(Player player) {
+        for(BowSpot spot : LastHunters.config.spots) {
+            if(spot.isPlayerHere(player)) {
+                return spot;
+            }
+        }
+
+        return null;
+    }
+
     private Chicken getRandomChicken() {
         Random random = new Random();
         int randomNumber = random.nextInt(LastHunters.config.maxChickensWeight);
@@ -326,5 +358,17 @@ public class Utilities {
     private FireworkEffect.Type getRandomFireworkType() {
         Random random = new Random();
         return FireworkEffect.Type.values()[random.nextInt(FireworkEffect.Type.values().length)];
+    }
+
+    public int findLine(ItemStack item, String line) {
+        List<String> lore = item.getItemMeta().getLore();
+        int size = lore.size();
+        for(int i=0;i<size;i++) {
+            if(lore.get(i).contains(line)) {
+                return i;
+            }
+        }
+
+        return -1;
     }
 }

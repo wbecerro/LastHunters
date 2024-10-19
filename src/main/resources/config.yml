@@ -15,6 +15,9 @@ Messages:
   inventoryFullTitle: "&cInventario lleno"
   lowBowUses: "&c&l&nUsos restantes:&e&l %uses%"
   doubleDrop: "&b[&cHalloween&b] &eHas conseguido una doble recompensa."
+  rodArguments: "&b[&cHalloween&b] &eEl uso es /lasthunters rod <Probabilidad> [Jugador]"
+  bowArguments: "&b[&cHalloween&b] &eEl uso es /lasthunters bow <Usos> [Jugador]"
+  catalystArguments: "&b[&cHalloween&b] &eEl uso es /lasthunters catalyst <Catalizador> [Jugador]"
   failedCatch:
     - "&cMás suerte la próxima vez."
     - "&c¿Para que quieres coger esa cosa?"
@@ -26,7 +29,7 @@ Messages:
     - "&b/lasthunters &eMuestra esta página."
     - "&b/lasthunters rod <Probabilidad> [Jugador] &eDa una &6&lCaña Estigia&e."
     - "&b/lasthunters bow <Usos> [Jugador] &eDa un &5&lDestructor de almas&e."
-    - "&b/lasthunters head <Cabeza> [Jugador] &eDa un &6&lCatalizador&e."
+    - "&b/lasthunters catalyst <Catalizado> [Jugador] &eDa un &6&lCatalizador&e."
     - "&b/lasthunters removeChickens &eElimina todas las &5Almas&e."
     - "&b/lasthunters fishChance <Probabilidad> &eAñade probabilidad de pescar."
     - "&b/lasthunters doubleChance <Probabilidad> &eAñade probabilidad de doble recompensa."
@@ -77,7 +80,6 @@ Items:
       - "&7"
       - "&7Caña espiritual que puede interactuar con"
       - "&7los espíritus y hacer que sean más amistosos."
-      - "&7Probabilidad: &e%chance%%"
   bow:
     glow: true
     name: "&5&lDestructor de almas"
@@ -85,8 +87,8 @@ Items:
       - "&7"
       - "&7Este arco puede erradicar"
       - "&7las almas y obtener premios."
-      - "&7Usos&e: %uses%"
-  rodChanceLore: "Probabilidad extra: %rodChance%%"
+    usesLore: "&7Usos: &e%uses%"
+  rodChanceLore: "&7Probabilidad extra: &e%rodChance%%"
 
 Boss:
   mob: Wbe

@@ -8,6 +8,8 @@ public class CatalystSpot {
 
     private Location location;
 
+    public static int catalystPlaced = 0;
+
     public CatalystSpot(String id, Location location) {
         this.id = id;
         this.location = location;

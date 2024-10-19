@@ -3,18 +3,24 @@ package wbe.lastHunters.listeners;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.persistence.PersistentDataType;
 import wbe.lastHunters.LastHunters;
+import wbe.lastHunters.config.entities.Chicken;
+import wbe.lastHunters.util.Utilities;
 
 public class EntityDamageListeners implements Listener {
 
     private LastHunters plugin = LastHunters.getInstance();
 
-    @EventHandler(priority = EventPriority.MONITOR)
+    private Utilities utilities = new Utilities();
+
+    @EventHandler(priority = EventPriority.NORMAL)
     public void cancelDamageOnSpecialMob(EntityDamageEvent event) {
         if(!(event.getEntity() instanceof LivingEntity)) {
             return;
@@ -29,7 +35,7 @@ public class EntityDamageListeners implements Listener {
         event.setCancelled(true);
     }
 
-    @EventHandler(priority = EventPriority.MONITOR)
+    @EventHandler(priority = EventPriority.NORMAL)
     public void cancelDamageOnPlayerBySpecialMob(EntityDamageByEntityEvent event) {
         if(!(event.getEntity() instanceof Player)) {
             return;
@@ -40,4 +46,33 @@ public class EntityDamageListeners implements Listener {
             event.setCancelled(true);
         }
     }
+
+    @EventHandler(priority = EventPriority.NORMAL)
+    public void destroyChickenOnImpact(EntityDamageByEntityEvent event) {
+        if(!(event.getDamager() instanceof Projectile)) {
+            return;
+        }
+
+        if(!(event.getEntity() instanceof LivingEntity)) {
+            return;
+        }
+
+        LivingEntity damaged = (LivingEntity) event.getEntity();
+        NamespacedKey chickenKey = new NamespacedKey(plugin, "chicken");
+        if(!damaged.getPersistentDataContainer().has(chickenKey)) {
+            return;
+        }
+
+        Projectile projectile = (Projectile) event.getDamager();
+        NamespacedKey projectileKey = new NamespacedKey(plugin, "specialBowProjectile");
+        if(!projectile.getPersistentDataContainer().has(projectileKey)) {
+            return;
+        }
+
+        Chicken chicken = utilities.searchChicken(damaged.getPersistentDataContainer().get(chickenKey, PersistentDataType.STRING));
+        Player player = (Player) projectile.getShooter();
+        utilities.giveReward(player, chicken.getRandomRarity());
+        damaged.remove();
+    }
+
 }

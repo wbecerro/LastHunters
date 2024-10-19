@@ -38,6 +38,7 @@ public class Config {
     public boolean bowGlow;
     public String bowName;
     public List<String> bowLore;
+    public String usesLore;
 
     public String rodChanceLore;
 
@@ -54,7 +55,7 @@ public class Config {
     public Set<Chicken> chickens = new HashSet<>();
     public Set<PoolMob> poolMobs = new HashSet<>();
     public Set<CatalystSpot> catalystSpots = new HashSet<>();
-    public List<CatalystType> catalystTypes = new ArrayList<>();
+    public Set<CatalystType> catalystTypes = new HashSet<>();
 
     public Config(FileConfiguration config) {
         this.config = config;
@@ -77,6 +78,7 @@ public class Config {
         bowGlow = config.getBoolean("Items.bow.glow");
         bowName = config.getString("Items.bow.name").replace("&", "§");
         bowLore = config.getStringList("Items.bow.lore");
+        usesLore = config.getString("Items.bow.usesLore").replace("&", "§");
 
         rodChanceLore = config.getString("Items.rodChanceLore").replace("&", "§");
 
