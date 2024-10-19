@@ -30,6 +30,7 @@ public class Config {
     public int titleTime;
     public int chickenCannonFireTime;
     public int chickenCannonSuccessChance;
+    public int lowRodUses;
     public List<String> enabledWorlds;
 
     public boolean rodGlow;
@@ -73,6 +74,7 @@ public class Config {
         titleTime = config.getInt("Config.titleTime");
         chickenCannonFireTime = config.getInt("Config.chickenCannonFireTime");
         chickenCannonSuccessChance = config.getInt("Config.chickenCannonSuccessChance");
+        lowRodUses = config.getInt("Config.lowRodUses");
         enabledWorlds = config.getStringList("Config.enabledWorlds");
 
         rodGlow = config.getBoolean("Items.rod.glow");

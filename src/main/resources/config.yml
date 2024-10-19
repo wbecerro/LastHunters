@@ -47,6 +47,7 @@ Config:
   titleTime: 2
   chickenCannonFireTime: 1
   chickenCannonSuccessChance: 35
+  lowRodUses: 10
   enabledWorlds:
     - Halloween
 
@@ -89,6 +90,7 @@ Items:
       - "&7las almas y obtener premios."
     usesLore: "&7Usos: &e%uses%"
   rodChanceLore: "&7Probabilidad extra: &e%rodChance%%"
+  doubleChanceLore: "&7Probabilidad de doble: &e%doubleChance%%"
 
 Boss:
   mob: Wbe

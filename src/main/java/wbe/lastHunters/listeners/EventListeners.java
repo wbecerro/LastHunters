@@ -15,5 +15,6 @@ public class EventListeners {
         pluginManager.registerEvents(new EntityTargetLivingEntityListeners(), plugin);
         pluginManager.registerEvents(new EntityShootBowListeners(), plugin);
         pluginManager.registerEvents(new BlockPlaceListeners(), plugin);
+        pluginManager.registerEvents(new PlayerItemDamageListeners(), plugin);
     }
 }

@@ -67,32 +67,6 @@ public class Utilities {
         return chance;
     }
 
-    public int getPlayerDoubleChance(Player player) {
-        int chance = 0;
-
-        PlayerInventory inventory = player.getInventory();
-        ItemStack mainHand = inventory.getItemInMainHand();
-        ItemStack offHand = inventory.getItemInOffHand();
-        ItemStack[] armor = inventory.getArmorContents();
-
-        if(!mainHand.getType().equals(Material.AIR)) {
-            chance += getItemRodChance(mainHand);
-        }
-
-        if(!offHand.getType().equals(Material.AIR)) {
-            chance += getItemRodChance(offHand);
-        }
-
-        for(ItemStack item : armor) {
-            if(item == null) {
-                continue;
-            }
-            chance += getItemRodChance(item);
-        }
-
-        return chance;
-    }
-
     private int getItemRodChance(ItemStack item) {
         ItemMeta meta = item.getItemMeta();
         if(meta == null) {
@@ -102,6 +76,46 @@ public class Utilities {
         NamespacedKey baseRodKey = new NamespacedKey(plugin, "rodChance");
         if(meta.getPersistentDataContainer().has(baseRodKey)) {
             return meta.getPersistentDataContainer().get(baseRodKey, PersistentDataType.INTEGER);
+        }
+
+        return 0;
+    }
+
+    public int getPlayerDoubleChance(Player player) {
+        int chance = 0;
+
+        PlayerInventory inventory = player.getInventory();
+        ItemStack mainHand = inventory.getItemInMainHand();
+        ItemStack offHand = inventory.getItemInOffHand();
+        ItemStack[] armor = inventory.getArmorContents();
+
+        if(!mainHand.getType().equals(Material.AIR)) {
+            chance += getItemDoubleChance(mainHand);
+        }
+
+        if(!offHand.getType().equals(Material.AIR)) {
+            chance += getItemDoubleChance(offHand);
+        }
+
+        for(ItemStack item : armor) {
+            if(item == null) {
+                continue;
+            }
+            chance += getItemDoubleChance(item);
+        }
+
+        return chance;
+    }
+
+    private int getItemDoubleChance(ItemStack item) {
+        ItemMeta meta = item.getItemMeta();
+        if(meta == null) {
+            return 0;
+        }
+
+        NamespacedKey baseDoubleKey = new NamespacedKey(plugin, "doubleChance");
+        if(meta.getPersistentDataContainer().has(baseDoubleKey)) {
+            return meta.getPersistentDataContainer().get(baseDoubleKey, PersistentDataType.INTEGER);
         }
 
         return 0;
