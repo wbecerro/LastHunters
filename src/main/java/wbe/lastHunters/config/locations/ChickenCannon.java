@@ -2,11 +2,15 @@ package wbe.lastHunters.config.locations;
 
 import org.bukkit.Location;
 
+import java.util.HashMap;
+
 public class ChickenCannon {
 
     private String id;
 
     private Location location;
+
+    public static HashMap<ChickenCannon, Integer> spawnedChickens = new HashMap<>();
 
     public ChickenCannon(String id, Location location) {
         this.id = id;

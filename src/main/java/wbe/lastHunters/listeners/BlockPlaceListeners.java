@@ -1,8 +1,6 @@
 package wbe.lastHunters.listeners;
 
-import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
-import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -11,12 +9,16 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataType;
 import wbe.lastHunters.LastHunters;
 import wbe.lastHunters.config.locations.CatalystSpot;
+import wbe.lastHunters.util.Utilities;
 
 public class BlockPlaceListeners implements Listener {
 
     private LastHunters plugin = LastHunters.getInstance();
+
+    private Utilities utilities = new Utilities();
 
     @EventHandler(priority = EventPriority.NORMAL)
     public void placeCatalystOnBoss(BlockPlaceEvent event) {
@@ -38,8 +40,15 @@ public class BlockPlaceListeners implements Listener {
         if(!meta.getPersistentDataContainer().has(catalystKey)) {
             return;
         }
+        String id = meta.getPersistentDataContainer().get(catalystKey, PersistentDataType.STRING);
 
-        CatalystSpot.catalystPlaced += 1;
-        
+        CatalystSpot catalystSpot = utilities.searchCatalystSpot(id);
+        if(!catalystSpot.isHeadPlaceable(event.getBlockPlaced().getLocation(), id)) {
+            player.sendMessage(LastHunters.messages.wrongHeadLocation);
+            event.setCancelled(true);
+            return;
+        }
+
+        utilities.placeCatalystInteraction(utilities.searchCatalyst(id), player, event.getBlockPlaced().getLocation());
     }
 }

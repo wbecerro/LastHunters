@@ -22,6 +22,7 @@ public class Config {
 
     public int poolMobsRespawnTime;
     public int maxRegionMobs;
+    public int maxCannonChickens;
     public boolean enableChests;
     public boolean enableChickens;
     public int refillChestsTime;
@@ -44,6 +45,8 @@ public class Config {
 
     public String bossName;
     public Location bossLocation;
+    public Sound headDisappearSound;
+    public Sound bossAppearSound;
 
     public int maxChickensWeight = 0;
     public int maxPoolWeight = 0;
@@ -62,6 +65,7 @@ public class Config {
 
         poolMobsRespawnTime = config.getInt("Config.poolMobsRespawnTime");
         maxRegionMobs = config.getInt("Config.maxRegionMobs");
+        maxCannonChickens = config.getInt("Config.maxCannonChickens");
         enableChests = config.getBoolean("Config.enableChests");
         enableChickens = config.getBoolean("Config.enableChickens");
         refillChestsTime = config.getInt("Config.refillChestsTime");
@@ -88,6 +92,8 @@ public class Config {
         double y = config.getDouble("Boss.spawn.y");
         double z = config.getDouble("Boss.spawn.z");
         bossLocation = new Location(world, x, y, z);
+        headDisappearSound = Sound.valueOf(config.getString("Boss.headDisappearSound"));
+        bossAppearSound = Sound.valueOf(config.getString("Boss.bossAppearSound"));
 
         loadAllConfig();
     }
@@ -143,7 +149,9 @@ public class Config {
             double y = cannonConfig.getDouble("Cannons." + cannon + ".y");
             double z = cannonConfig.getDouble("Cannons." + cannon + ".z");
             Location location = new Location(world, x, y, z);
-            cannons.add(new ChickenCannon(cannon, location));
+            ChickenCannon chickenCannon = new ChickenCannon(cannon, location);
+            cannons.add(chickenCannon);
+            ChickenCannon.spawnedChickens.put(chickenCannon, 0);
         }
     }
 

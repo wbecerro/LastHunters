@@ -6,11 +6,15 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.persistence.PersistentDataType;
 import wbe.lastHunters.LastHunters;
+import wbe.lastHunters.config.locations.ChickenCannon;
 
 import java.util.Set;
 
 public class Scheduler {
+
+    private static Utilities utilities = new Utilities();
 
     public static void startSchedulers(FileConfiguration config, LastHunters plugin) {
         startPoolMobsScheduler(config, plugin);
@@ -56,6 +60,10 @@ public class Scheduler {
                     for(LivingEntity entity : world.getLivingEntities()) {
                         if(entity.isOnGround() || entity.isDead() || entity.isInWater()) {
                             if(entity.getPersistentDataContainer().has(chickenKey)) {
+                                NamespacedKey cannonKey = new NamespacedKey(plugin, "cannon");
+                                String id = entity.getPersistentDataContainer().get(cannonKey, PersistentDataType.STRING);
+                                ChickenCannon cannon = utilities.searchChickenCannon(id);
+                                ChickenCannon.spawnedChickens.put(cannon, ChickenCannon.spawnedChickens.get(cannon) - 1);
                                 entity.remove();
                             }
                         }

@@ -30,4 +30,17 @@ public class CatalystSpot {
     public void setLocation(Location location) {
         this.location = location;
     }
+
+    public boolean isHeadPlaceable(Location location, String otherId) {
+        if(!id.equalsIgnoreCase(otherId)) {
+            return false;
+        }
+
+        if(this.location.getX() == location.getX() && this.location.getY() == location.getY() &&
+                this.location.getY() == location.getY()) {
+            return true;
+        }
+
+        return false;
+    }
 }

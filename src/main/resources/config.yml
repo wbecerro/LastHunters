@@ -4,10 +4,9 @@ Messages:
   undefinedHead: "&b[&cHalloween&b] &eLa cabeza %head% no existe."
   noReward: "&b[&cHalloween&b] &eEste espíritu no tenía regalos."
   wrongHeadLocation: "&b[&cHalloween&b] &eEse catalizador no se puede colocar ahí."
-  headPlaced: "&b[&cHalloween&b] &e%player% ha colocado un &6&lCatalizador de %bossHead_playername% &e%current_heads_placed%/%max%."
+  headPlaced: "&b[&cHalloween&b] &e%player% ha colocado un %bossHead_playername% &e%current_heads_placed%/%max%."
   bossSpawning: "&b[&cHalloween&b] &eTodos los catalizadores han sido colocados, el ser divine despierta."
   bossSpawned: "&b[&cHalloween&b] &e%boss% ha aparecido para repartir miedo y desesperación."
-  cannotPlace: "&b[&cHalloween&b] &eNo puedes colocar eso ahí."
   lowRodTitle: "&c&lCUIDADO"
   lowRodSubtitle: "&aTu caña tiene menos de 10 usos"
   cannotUseBow: "&b[&cHalloween&b] &eNo puedes usar el &5&lDestructor de almas &eaquí."
@@ -40,13 +39,14 @@ Messages:
 Config:
   poolMobsRespawnTime: 30
   maxRegionMobs: 15
+  maxCannonChickens: 10
   enableChests: true
   enableChickens: true
   refillChestsTime: 900
   catchFailSound: ENTITY_ALLAY_HURT
   titleTime: 2
   chickenCannonFireTime: 1
-  chickenCannonSuccessChance: 20
+  chickenCannonSuccessChance: 35
   enabledWorlds:
     - Halloween
 
@@ -65,7 +65,7 @@ Chickens:
     name: "&e&lPremio gordo"
     weight: 2
     glow: true
-    glowingColor: YELLOW
+    glowingColor: GREEN
     rewards:
       empty: 1000
       legendary: 6000
@@ -97,6 +97,8 @@ Boss:
     x: -310
     y: -22
     z: 118
+  headDisappearSound: BLOCK_RESPAWN_ANCHOR_CHARGE
+  bossAppearSound: ENTITY_WITHER_SPAWN
 
 Heads:
   wbe:
@@ -130,7 +132,7 @@ Heads:
       y: -22
       z: 109
     signature:
-    name: "&6&lCatalizador de fros"
+    name: "&6&lCatalizador de Fros"
     lore:
       - "&7"
       - "&7Sirve para canalizar energía divina"

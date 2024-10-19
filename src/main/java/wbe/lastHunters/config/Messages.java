@@ -16,7 +16,6 @@ public class Messages {
     public String headPlaced;
     public String bossSpawning;
     public String bossSpawned;
-    public String cannotPlace;
     public String lowRodTitle;
     public String lowRodSubtitle;
     public String cannotUseBow;
@@ -41,7 +40,6 @@ public class Messages {
         headPlaced = config.getString("Messages.headPlaced").replace("&", "§");
         bossSpawning = config.getString("Messages.bossSpawning").replace("&", "§");
         bossSpawned = config.getString("Messages.bossSpawned").replace("&", "§");
-        cannotPlace = config.getString("Messages.cannotPlace").replace("&", "§");
         lowRodTitle = config.getString("Messages.lowRodTitle").replace("&", "§");
         lowRodSubtitle = config.getString("Messages.lowRodSubtitle").replace("&", "§");
         cannotUseBow = config.getString("Messages.cannotUseBow").replace("&", "§");

@@ -5,6 +5,9 @@ import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import com.sk89q.worldguard.protection.regions.RegionContainer;
+import io.lumine.mythic.api.mobs.MythicMob;
+import io.lumine.mythic.bukkit.MythicBukkit;
+import io.lumine.mythic.core.mobs.MobExecutor;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.EntityType;
@@ -25,6 +28,7 @@ import wbe.lastHunters.LastHunters;
 import wbe.lastHunters.config.entities.Chicken;
 import wbe.lastHunters.config.entities.PoolMob;
 import wbe.lastHunters.config.locations.BowSpot;
+import wbe.lastHunters.config.locations.CatalystSpot;
 import wbe.lastHunters.config.locations.ChickenCannon;
 import wbe.lastHunters.hooks.WorldGuardManager;
 import wbe.lastHunters.items.CatalystType;
@@ -38,6 +42,32 @@ public class Utilities {
     private LastHunters plugin = LastHunters.getInstance();
 
     public int getPlayerRodChance(Player player) {
+        int chance = 0;
+
+        PlayerInventory inventory = player.getInventory();
+        ItemStack mainHand = inventory.getItemInMainHand();
+        ItemStack offHand = inventory.getItemInOffHand();
+        ItemStack[] armor = inventory.getArmorContents();
+
+        if(!mainHand.getType().equals(Material.AIR)) {
+            chance += getItemRodChance(mainHand);
+        }
+
+        if(!offHand.getType().equals(Material.AIR)) {
+            chance += getItemRodChance(offHand);
+        }
+
+        for(ItemStack item : armor) {
+            if(item == null) {
+                continue;
+            }
+            chance += getItemRodChance(item);
+        }
+
+        return chance;
+    }
+
+    public int getPlayerDoubleChance(Player player) {
         int chance = 0;
 
         PlayerInventory inventory = player.getInventory();
@@ -183,10 +213,30 @@ public class Utilities {
         return null;
     }
 
+    public ChickenCannon searchChickenCannon(String id) {
+        for(ChickenCannon chickenCannon : LastHunters.config.cannons) {
+            if(chickenCannon.getId().equalsIgnoreCase(id)) {
+                return chickenCannon;
+            }
+        }
+
+        return null;
+    }
+
     public CatalystType searchCatalyst(String id) {
         for(CatalystType catalystType : LastHunters.config.catalystTypes) {
             if(catalystType.getId().equalsIgnoreCase(id)) {
                 return catalystType;
+            }
+        }
+
+        return null;
+    }
+
+    public CatalystSpot searchCatalystSpot(String id) {
+        for(CatalystSpot catalystSpot : LastHunters.config.catalystSpots) {
+            if(catalystSpot.getId().equalsIgnoreCase(id)) {
+                return catalystSpot;
             }
         }
 
@@ -238,6 +288,10 @@ public class Utilities {
     public void spawnChickensFromCannons() {
         Random random = new Random();
         for(ChickenCannon cannon : LastHunters.config.cannons) {
+            if(ChickenCannon.spawnedChickens.get(cannon) >= LastHunters.config.maxCannonChickens) {
+                continue;
+            }
+
             if(random.nextInt(100) > LastHunters.config.chickenCannonSuccessChance) {
                 continue;
             }
@@ -245,6 +299,7 @@ public class Utilities {
             Location cannonLocation = cannon.getLocation().clone().add(0.5, 1, 0.5);
             Chicken randomChicken = getRandomChicken();
             LivingEntity chicken = (LivingEntity) cannonLocation.getWorld().spawnEntity(cannonLocation, EntityType.CHICKEN);
+            ChickenCannon.spawnedChickens.put(cannon, ChickenCannon.spawnedChickens.get(cannon) + 1);
             if(randomChicken.isGlow()) {
                 chicken.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, PotionEffect.INFINITE_DURATION,
                         1, false, false, false));
@@ -255,8 +310,10 @@ public class Utilities {
             }
             NamespacedKey mobKey = new NamespacedKey(plugin, "specialMob");
             NamespacedKey chickenKey = new NamespacedKey(plugin, "chicken");
+            NamespacedKey cannonKey = new NamespacedKey(plugin, "cannon");
             chicken.getPersistentDataContainer().set(mobKey, PersistentDataType.BOOLEAN, true);
             chicken.getPersistentDataContainer().set(chickenKey, PersistentDataType.STRING, randomChicken.getId());
+            chicken.getPersistentDataContainer().set(cannonKey, PersistentDataType.STRING, cannon.getId());
 
             chicken.getEquipment().clear();
             chicken.getPassengers().clear();
@@ -302,6 +359,52 @@ public class Utilities {
         }
 
         return null;
+    }
+
+    public void placeCatalystInteraction(CatalystType type, Player player, Location location) {
+        CatalystSpot.catalystPlaced += 1;
+        Bukkit.broadcastMessage(LastHunters.messages.headPlaced
+                .replace("%player%", player.getName())
+                .replace("%bossHead_playername%", type.getName())
+                .replace("%current_heads_placed%", String.valueOf(CatalystSpot.catalystPlaced))
+                .replace("%max%", String.valueOf(LastHunters.config.catalystSpots.size())));
+        World world = location.getWorld();
+        world.strikeLightningEffect(location);
+        world.createExplosion(location, 1.0F);
+        if(CatalystSpot.catalystPlaced >= LastHunters.config.catalystSpots.size()) {
+            spawnBoss();
+            CatalystSpot.catalystPlaced = 0;
+        }
+    }
+
+    public void spawnBoss() {
+        int iterations = 0;
+        for(CatalystSpot catalystSpot : LastHunters.config.catalystSpots) {
+            iterations++;
+            Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
+                @Override
+                public void run() {
+                    Location location = catalystSpot.getLocation();
+                    World world = location.getWorld();
+                    world.strikeLightningEffect(location);
+                    world.createExplosion(location, 1.0F);
+                    world.getBlockAt(location).setType(Material.AIR);
+                    world.playSound(location, LastHunters.config.headDisappearSound, 1.0F, 1.0F);
+                }
+            }, 15L * iterations);
+        }
+
+        Bukkit.broadcastMessage(LastHunters.messages.bossSpawning);
+        Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
+            @Override
+            public void run() {
+                MobExecutor mobExecutor = MythicBukkit.inst().getMobManager();
+                MythicMob mythicMob = mobExecutor.getMythicMob(LastHunters.config.bossName).get();
+                mobExecutor.spawnMob(LastHunters.config.bossName, LastHunters.config.bossLocation);
+                LastHunters.config.bossLocation.getWorld().playSound(LastHunters.config.bossLocation, LastHunters.config.bossAppearSound, 1.0F, 1.0F);
+                Bukkit.broadcastMessage(LastHunters.messages.bossSpawned.replace("%boss%", mythicMob.getDisplayName().get()));
+            }
+        }, 15L * iterations + 1);
     }
 
     private Chicken getRandomChicken() {
