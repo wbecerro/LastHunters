@@ -18,6 +18,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.Team;
 import org.bukkit.util.Vector;
 import wbe.lastHunters.LastHunters;
 import wbe.lastHunters.config.entities.Chicken;
@@ -224,6 +226,10 @@ public class Utilities {
             if(randomChicken.isGlow()) {
                 chicken.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, PotionEffect.INFINITE_DURATION,
                         1, false, false, false));
+                if(randomChicken.getGlowColor() != null) {
+                    LastHunters.teams.get(randomChicken).setColor(randomChicken.getGlowColor());
+                    LastHunters.teams.get(randomChicken).addEntry(chicken.getUniqueId().toString());
+                }
             }
             NamespacedKey mobKey = new NamespacedKey(plugin, "specialMob");
             NamespacedKey chickenKey = new NamespacedKey(plugin, "chicken");
@@ -242,6 +248,27 @@ public class Utilities {
             double vectorZ = ((Math.random() * (3 - 1)) + 1) * -1;
             Vector launch = new Vector(vectorX, vectorY, vectorZ);
             chicken.setVelocity(launch);
+        }
+    }
+
+    public void registerAllTeams(Scoreboard scoreboard) {
+        for(Chicken chicken : LastHunters.config.chickens) {
+            if(!chicken.isGlow()) {
+                continue;
+            }
+
+            if(chicken.getGlowColor() == null) {
+                continue;
+            }
+
+            Team team;
+            if(scoreboard.getTeam(chicken.getId()) == null) {
+                team = scoreboard.registerNewTeam(chicken.getId());
+            } else {
+                team = scoreboard.getTeam(chicken.getId());
+            }
+
+            LastHunters.teams.put(chicken, team);
         }
     }
 

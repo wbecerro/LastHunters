@@ -191,9 +191,13 @@ public class Config {
             String name = config.getString("Chickens." + chicken + ".name").replace("&", "§");
             int weight = config.getInt("Chickens." + chicken + ".weight");
             boolean glow = config.getBoolean("Chickens." + chicken + ".glow");
+            ChatColor glowColor = null;
+            if(config.contains("Chickens." + chicken + ".glowingColor")) {
+                glowColor = ChatColor.valueOf(config.getString("Chickens." + chicken + ".glowingColor"));
+            }
             maxChickensWeight += weight;
             HashMap<Rarity, Integer> raritiesWeights = loadRarityWeights("Chickens." + chicken, config);
-            chickens.add(new Chicken(chicken, name, weight, glow, raritiesWeights));
+            chickens.add(new Chicken(chicken, name, weight, glow, glowColor, raritiesWeights));
         }
     }
 

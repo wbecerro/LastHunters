@@ -1,5 +1,6 @@
 package wbe.lastHunters.config.entities;
 
+import org.bukkit.ChatColor;
 import org.bukkit.entity.LivingEntity;
 import wbe.lastHunters.rarities.Rarity;
 
@@ -20,15 +21,18 @@ public class Chicken {
 
     private boolean glow;
 
+    private ChatColor glowColor;
+
     private HashMap<Rarity, Integer> rarities;
 
     private int maxWeight = 0;
 
-    public Chicken(String id, String name, int weight, boolean glow, HashMap<Rarity, Integer> rarities) {
+    public Chicken(String id, String name, int weight, boolean glow, ChatColor glowColor, HashMap<Rarity, Integer> rarities) {
         this.id = id;
         this.name = name;
         this.weight = weight;
         this.glow = glow;
+        this.glowColor = glowColor;
         this.rarities = rarities;
         calculateMaxWeight();
     }
@@ -63,6 +67,14 @@ public class Chicken {
 
     public void setGlow(boolean glow) {
         this.glow = glow;
+    }
+
+    public ChatColor getGlowColor() {
+        return glowColor;
+    }
+
+    public void setGlowColor(ChatColor glowColor) {
+        this.glowColor = glowColor;
     }
 
     public HashMap<Rarity, Integer> getRarities() {

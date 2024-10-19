@@ -4,15 +4,19 @@ import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.Team;
 import wbe.lastHunters.commands.CommandListener;
 import wbe.lastHunters.config.Config;
 import wbe.lastHunters.config.Messages;
+import wbe.lastHunters.config.entities.Chicken;
 import wbe.lastHunters.hooks.WorldGuardManager;
 import wbe.lastHunters.listeners.EventListeners;
 import wbe.lastHunters.util.Scheduler;
 import wbe.lastHunters.util.Utilities;
 
 import java.io.File;
+import java.util.HashMap;
 
 public final class LastHunters extends JavaPlugin {
 
@@ -38,6 +42,10 @@ public final class LastHunters extends JavaPlugin {
 
     public static Messages messages;
 
+    private Scoreboard scoreboard;
+
+    public static HashMap<Chicken, Team> teams = new HashMap<>();
+
     @Override
     public void onEnable() {
         saveDefaultConfig();
@@ -47,6 +55,9 @@ public final class LastHunters extends JavaPlugin {
         createSpotsFile();
         getLogger().info("LastHunters enabled correctly");
         reloadConfiguration();
+
+        scoreboard = Bukkit.getScoreboardManager().getMainScoreboard();
+        new Utilities().registerAllTeams(scoreboard);
 
         commandListener = new CommandListener();
         getCommand("lasthunters").setExecutor(this.commandListener);

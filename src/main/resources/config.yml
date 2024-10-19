@@ -62,6 +62,7 @@ Chickens:
     name: "&e&lPremio gordo"
     weight: 2
     glow: true
+    glowingColor: YELLOW
     rewards:
       empty: 1000
       legendary: 6000
