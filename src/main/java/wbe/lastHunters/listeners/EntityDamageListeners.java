@@ -12,6 +12,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.persistence.PersistentDataType;
 import wbe.lastHunters.LastHunters;
 import wbe.lastHunters.config.entities.Chicken;
+import wbe.lastHunters.config.locations.ChickenCannon;
 import wbe.lastHunters.util.Utilities;
 
 import java.util.Random;
@@ -80,6 +81,10 @@ public class EntityDamageListeners implements Listener {
             utilities.giveReward(player, chicken.getRandomRarity());
         }
         utilities.giveReward(player, chicken.getRandomRarity());
+        NamespacedKey cannonKey = new NamespacedKey(plugin, "cannon");
+        String id = damaged.getPersistentDataContainer().get(cannonKey, PersistentDataType.STRING);
+        ChickenCannon cannon = utilities.searchChickenCannon(id);
+        ChickenCannon.spawnedChickens.put(cannon, ChickenCannon.spawnedChickens.get(cannon) - 1);
         damaged.remove();
     }
 

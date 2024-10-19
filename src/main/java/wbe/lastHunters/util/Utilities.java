@@ -327,7 +327,8 @@ public class Utilities {
         } else {
             player.getInventory().addItem(item);
         }
-        String message = rarity.getPrefix() + reward.getMessage();
+
+        String message = rarity.getPrefix() + reward.getMessage().replace("%item%", item.getItemMeta().getDisplayName());
         player.sendMessage(message);
     }
 
