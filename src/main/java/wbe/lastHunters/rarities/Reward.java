@@ -1,17 +1,19 @@
 package wbe.lastHunters.rarities;
 
+import org.bukkit.inventory.ItemStack;
+
 public class Reward {
 
     private String id;
 
     private String message;
 
-    private String command;
+    private ItemStack item;
 
-    public Reward(String id, String message, String command) {
+    public Reward(String id, String message, ItemStack item) {
         this.id = id;
         this.message = message;
-        this.command = command;
+        this.item = item;
     }
 
     public String getId() {
@@ -30,11 +32,11 @@ public class Reward {
         this.message = message;
     }
 
-    public String getCommand() {
-        return command;
+    public ItemStack getItem() {
+        return item;
     }
 
-    public void setCommand(String command) {
-        this.command = command;
+    public void setItem(ItemStack item) {
+        this.item = item;
     }
 }

@@ -146,6 +146,22 @@ public class CommandListener implements CommandExecutor {
 
                 plugin.reloadConfiguration();
                 sender.sendMessage(LastHunters.messages.reload);
+            } else if(args[0].equalsIgnoreCase("addReward")) {
+                if(!sender.hasPermission("lasthunters.command.addReward")) {
+                    sender.sendMessage(LastHunters.messages.noPermission);
+                    return false;
+                }
+
+                if(args.length < 3) {
+                    sender.sendMessage(LastHunters.messages.notEnoughArgs);
+                    sender.sendMessage(LastHunters.messages.addRewardArguments);
+                }
+
+                String rarity = args[1];
+                String id = args[2];
+                ItemStack item = player.getInventory().getItemInMainHand();
+                utilities.addReward(rarity, id, item);
+                player.sendMessage(LastHunters.messages.addedReward.replace("%rarity%", rarity));
             }
         }
 

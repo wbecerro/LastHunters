@@ -20,10 +20,10 @@ public class Scheduler {
         startPoolMobsScheduler(config, plugin);
         startChickenCannonScheduler(config, plugin);
         startGroundChickenRemoverScheduler(config, plugin);
+        startChestFillScheduler(config, plugin);
     }
 
     private static void startPoolMobsScheduler(FileConfiguration config, LastHunters plugin) {
-        Utilities utilities = new Utilities();
         Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
             @Override
             public void run() {
@@ -41,7 +41,6 @@ public class Scheduler {
             return;
         }
 
-        Utilities utilities = new Utilities();
         Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
             @Override
             public void run() {
@@ -71,5 +70,18 @@ public class Scheduler {
                 }
             }
         }, 20L, 10L);
+    }
+
+    private static void startChestFillScheduler(FileConfiguration config, LastHunters plugin) {
+        if(!LastHunters.config.enableChests) {
+            return;
+        }
+
+        Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
+            @Override
+            public void run() {
+                utilities.fillChest();
+            }
+        }, 20L, 20L * LastHunters.config.refillChestsTime);
     }
 }

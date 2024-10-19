@@ -28,7 +28,7 @@ public final class LastHunters extends JavaPlugin {
     private File chestsConfigFile;
     public static FileConfiguration chestsConfig;
 
-    private File rewardsConfigFile;
+    public File rewardsConfigFile;
     public static FileConfiguration rewardsConfig;
 
     private File spotsConfigFile;
@@ -55,9 +55,6 @@ public final class LastHunters extends JavaPlugin {
         createSpotsFile();
         getLogger().info("LastHunters enabled correctly");
         reloadConfiguration();
-
-        scoreboard = Bukkit.getScoreboardManager().getMainScoreboard();
-        new Utilities().registerAllTeams(scoreboard);
 
         commandListener = new CommandListener();
         getCommand("lasthunters").setExecutor(this.commandListener);
@@ -95,6 +92,7 @@ public final class LastHunters extends JavaPlugin {
         createSpotsFile();
         messages = new Messages(configuration);
         config = new Config(configuration);
+        scoreboard = Bukkit.getScoreboardManager().getMainScoreboard();
         new Utilities().registerAllTeams(scoreboard);
     }
 

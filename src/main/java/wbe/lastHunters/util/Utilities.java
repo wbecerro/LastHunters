@@ -9,7 +9,8 @@ import io.lumine.mythic.api.mobs.MythicMob;
 import io.lumine.mythic.bukkit.MythicBukkit;
 import io.lumine.mythic.core.mobs.MobExecutor;
 import org.bukkit.*;
-import org.bukkit.block.Block;
+import org.bukkit.block.*;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Firework;
 import org.bukkit.entity.LivingEntity;
@@ -29,12 +30,14 @@ import wbe.lastHunters.config.entities.Chicken;
 import wbe.lastHunters.config.entities.PoolMob;
 import wbe.lastHunters.config.locations.BowSpot;
 import wbe.lastHunters.config.locations.CatalystSpot;
+import wbe.lastHunters.config.locations.ChestSpot;
 import wbe.lastHunters.config.locations.ChickenCannon;
 import wbe.lastHunters.hooks.WorldGuardManager;
 import wbe.lastHunters.items.CatalystType;
 import wbe.lastHunters.rarities.Rarity;
 import wbe.lastHunters.rarities.Reward;
 
+import java.io.IOException;
 import java.util.*;
 
 public class Utilities {
@@ -307,7 +310,7 @@ public class Utilities {
             return;
         }
         Reward reward = rarity.getRandomReward();
-        String command = reward.getCommand().replace("%player%", player.getName());
+        ItemStack item = reward.getItem();
         if(!rarity.getBroadcast().isEmpty()) {
             Bukkit.getServer().broadcastMessage(rarity.getBroadcast().replace("%player%", player.getName()));
         }
@@ -319,7 +322,11 @@ public class Utilities {
             }
         }
 
-        Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), command);
+        if(player.getInventory().firstEmpty() == -1) {
+            player.getWorld().dropItem(player.getLocation(), item);
+        } else {
+            player.getInventory().addItem(item);
+        }
         String message = rarity.getPrefix() + reward.getMessage();
         player.sendMessage(message);
     }
@@ -465,7 +472,50 @@ public class Utilities {
         }, 15L * iterations + 1);
     }
 
-    public void
+    public void addReward(String rarity, String id, ItemStack item) {
+        FileConfiguration config = LastHunters.rewardsConfig;
+        config.set("Rarities." + rarity + ".rewards." + id + ".message", "Default reward message");
+        config.set("Rarities." + rarity + ".rewards." + id + ".item", item);
+        try {
+            config.save(plugin.rewardsConfigFile);
+            plugin.reloadConfiguration();
+        } catch(IOException e) {
+            throw new RuntimeException("Error while saving the rewards config.");
+        }
+    }
+
+    public void fillChest() {
+        ChestSpot chest = getRandomChest();
+        Random random = new Random();
+        int rewards = random.nextInt(chest.getMaxRewards() - chest.getMinRewards()) + chest.getMinRewards();
+        Location location = chest.getLocation();
+        World world = location.getWorld();
+        Block block = world.getBlockAt(location);
+        for(int i=0;i<rewards;i++) {
+            Rarity rarity = chest.getRandomRarity();
+            ItemStack reward = rarity.getRandomReward().getItem();
+            Container container = null;
+            switch(chest.getMaterial()) {
+                case CHEST:
+                    container = (Chest) block.getState();
+                    break;
+                case BARREL:
+                    container = (Barrel) block.getState();
+                    break;
+                default:
+                    container = (ShulkerBox) block.getState();
+                    break;
+            }
+            container.getInventory().addItem(reward);
+        }
+
+        world.strikeLightningEffect(location);
+    }
+
+    private ChestSpot getRandomChest() {
+        Random random = new Random();
+        return LastHunters.config.chests.get(random.nextInt(LastHunters.config.chests.size()));
+    }
 
     private Chicken getRandomChicken() {
         Random random = new Random();

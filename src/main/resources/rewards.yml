@@ -3,47 +3,75 @@ Rarities:
     prefix: "&b◆ COMMON ◆ "
     rewards:
       golden_apple:
-        message: "&f1x Golden Apple"
-        command: "give %player% golden_apple 1"
+        message: Default reward message
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          v: 3955
+          type: GOLDEN_APPLE
+          amount: 1
   uncommon:
     prefix: "&a◆ UNCOMMON ◆ "
     rewards:
       golden_apple:
-        message: "&f1x Golden Apple"
-        command: "give %player% golden_apple 1"
+        message: Default reward message
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          v: 3955
+          type: GOLDEN_APPLE
+          amount: 1
   rare:
     prefix: "&9◆ RARE ◆ "
     rewards:
       golden_apple:
-        message: "&f1x Golden Apple"
-        command: "give %player% golden_apple 1"
+        message: Default reward message
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          v: 3955
+          type: GOLDEN_APPLE
+          amount: 1
   epic:
     prefix: "&5◆ EPIC ◆ "
     rewards:
       golden_apple:
-        message: "&f1x Golden Apple"
-        command: "give %player% golden_apple 1"
+        message: Default reward message
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          v: 3955
+          type: GOLDEN_APPLE
+          amount: 1
   legendary:
     prefix: "&6◆ LEGENDARY ◆ "
     fireworks: 2
     broadcast: "%player% got a legendary reward."
     rewards:
       golden_apple:
-        message: "&f1x Golden Apple"
-        command: "give %player% golden_apple 1"
+        message: Default reward message
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          v: 3955
+          type: GOLDEN_APPLE
+          amount: 1
   mythic:
     prefix: "&d◆ MYTHIC ◆ "
     fireworks: 4
     broadcast: "%player% got a legendary reward."
     rewards:
       golden_apple:
-        message: "&f1x Golden Apple"
-        command: "give %player% golden_apple 1"
+        message: Default reward message
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          v: 3955
+          type: GOLDEN_APPLE
+          amount: 1
   divine:
     prefix: "&f◆ DIVINE ◆ "
     fireworks: 6
     broadcast: "%player% got a legendary reward."
     rewards:
       golden_apple:
-        message: "&f1x Golden Apple"
-        command: "give %player% golden_apple 1"
+        message: Default reward message
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          v: 3955
+          type: GOLDEN_APPLE
+          amount: 1

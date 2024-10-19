@@ -3,6 +3,7 @@ package wbe.lastHunters.config;
 import org.bukkit.*;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.EntityType;
+import org.bukkit.inventory.ItemStack;
 import wbe.lastHunters.LastHunters;
 import wbe.lastHunters.config.entities.Chicken;
 import wbe.lastHunters.config.entities.PoolMob;
@@ -55,7 +56,7 @@ public class Config {
 
     public HashMap<String, Rarity> rarities = new HashMap<>();
     public Set<ChickenCannon> cannons = new HashSet<>();
-    public Set<ChestSpot> chests = new HashSet<>();
+    public List<ChestSpot> chests = new ArrayList<>();
     public Set<BowSpot> spots = new HashSet<>();
     public Set<Chicken> chickens = new HashSet<>();
     public Set<PoolMob> poolMobs = new HashSet<>();
@@ -137,8 +138,8 @@ public class Config {
         List<Reward> rewards = new ArrayList<>();
         for(String reward : configRewards) {
             String message = rewardsConfig.getString("Rarities." + rarity + ".rewards." + reward + ".message").replace("&", "§");
-            String command = rewardsConfig.getString("Rarities." + rarity + ".rewards." + reward + ".command");
-            rewards.add(new Reward(reward, message, command));
+            ItemStack item = rewardsConfig.getItemStack("Rarities." + rarity + ".rewards." + reward + ".item");
+            rewards.add(new Reward(reward, message, item));
         }
 
         return rewards;
