@@ -32,6 +32,7 @@ public class Messages {
     public String addedDoubleChance;
     public String addedReward;
     public String reload;
+    public String inventoryFullTitle;
     public List<String> failedCatch;
     public List<String> help;
 
@@ -62,6 +63,7 @@ public class Messages {
         addedDoubleChance = config.getString("Messages.addedDoubleChance").replace("&", "§");
         addedReward = config.getString("Messages.addedReward").replace("&", "§");
         reload = config.getString("Messages.reload").replace("&", "§");
+        inventoryFullTitle = config.getString("Messages.inventoryFullTitle").replace("&", "§");
         failedCatch = config.getStringList("Messages.failedCatch");
         help = config.getStringList("Messages.help");
     }

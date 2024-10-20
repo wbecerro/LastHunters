@@ -7,7 +7,7 @@ Messages:
   headPlaced: "&b[&cHalloween&b] &e%player% ha colocado un %bossHead_playername% &e%current_heads_placed%/%max%."
   bossSpawning: "&b[&cHalloween&b] &eTodos los catalizadores han sido colocados, el ser divine despierta."
   bossSpawned: "&b[&cHalloween&b] &e%boss% ha aparecido para repartir miedo y desesperación."
-  lowRodTitle: "&c&lCUIDADO"
+  lowRodTitle: "&c&l¡CUIDADO!"
   lowRodSubtitle: "&aTu caña tiene menos de 10 usos"
   cannotUseBow: "&b[&cHalloween&b] &eNo puedes usar el &5&lDestructor de almas &eaquí."
   bowBroken: "&b[&cHalloween&b] &eTu &5&lDestructor de almas &ese ha roto."
@@ -23,6 +23,7 @@ Messages:
   addedDoubleChance: "&b[&cHalloween&b] &eAñadida probabilidad de doble al objeto."
   addedReward: "&b[&cHalloween&b] &eAñadida recompensa a la rareza %rarity%."
   reload: "&b[&cHalloween&b] &ePlugin recargado con éxito."
+  inventoryFullTitle: "&c&l¡Inventario lleno!"
   failedCatch:
     - "&cMás suerte la próxima vez."
     - "&c¿Para que quieres coger esa cosa?"

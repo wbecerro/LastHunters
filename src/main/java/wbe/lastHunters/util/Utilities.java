@@ -324,6 +324,7 @@ public class Utilities {
 
         if(player.getInventory().firstEmpty() == -1) {
             player.getWorld().dropItem(player.getLocation(), item);
+            player.sendTitle(LastHunters.messages.inventoryFullTitle, "", 10, LastHunters.config.titleTime * 20, 20);
         } else {
             player.getInventory().addItem(item);
         }
