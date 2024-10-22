@@ -22,7 +22,7 @@ public class EntitiesUnloadListeners implements Listener {
                 continue;
             }
 
-            if(entity.getPersistentDataContainer().has(golemKey)) {
+            if(!entity.getPersistentDataContainer().has(golemKey)) {
                 continue;
             }
 
