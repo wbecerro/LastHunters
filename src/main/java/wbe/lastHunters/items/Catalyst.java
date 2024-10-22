@@ -38,7 +38,7 @@ public class Catalyst extends ItemStack {
         }
         skullMeta.setLore(lore);
 
-        PlayerProfile playerProfile = Bukkit.createPlayerProfile(UUID.randomUUID());
+        PlayerProfile playerProfile = Bukkit.createPlayerProfile(UUID.fromString("92864445-51c5-4c3b-9039-517c9927d1b4"));
         PlayerTextures textures = playerProfile.getTextures();
         URL url;
         try {
