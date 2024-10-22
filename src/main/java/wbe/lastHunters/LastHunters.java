@@ -10,6 +10,7 @@ import wbe.lastHunters.commands.CommandListener;
 import wbe.lastHunters.config.Config;
 import wbe.lastHunters.config.Messages;
 import wbe.lastHunters.config.entities.Chicken;
+import wbe.lastHunters.config.entities.Golem;
 import wbe.lastHunters.hooks.WorldGuardManager;
 import wbe.lastHunters.listeners.EventListeners;
 import wbe.lastHunters.util.Scheduler;
@@ -34,6 +35,9 @@ public final class LastHunters extends JavaPlugin {
     private File spotsConfigFile;
     public static FileConfiguration spotsConfig;
 
+    private File golemsConfigFile;
+    public static FileConfiguration golemsConfig;
+
     private CommandListener commandListener;
 
     private EventListeners eventListeners;
@@ -44,15 +48,12 @@ public final class LastHunters extends JavaPlugin {
 
     private Scoreboard scoreboard;
 
-    public static HashMap<Chicken, Team> teams = new HashMap<>();
+    public static HashMap<Chicken, Team> chickenTeams = new HashMap<>();
+    public static HashMap<Golem, Team> golemTeams = new HashMap<>();
 
     @Override
     public void onEnable() {
         saveDefaultConfig();
-        createCannonFile();
-        createChestsFile();
-        createRewardsFile();
-        createSpotsFile();
         getLogger().info("LastHunters enabled correctly");
         reloadConfiguration();
 
@@ -90,6 +91,7 @@ public final class LastHunters extends JavaPlugin {
         createChestsFile();
         createRewardsFile();
         createSpotsFile();
+        createGolemsFile();
         messages = new Messages(configuration);
         config = new Config(configuration);
         scoreboard = Bukkit.getScoreboardManager().getMainScoreboard();
@@ -134,5 +136,15 @@ public final class LastHunters extends JavaPlugin {
         }
 
         spotsConfig = YamlConfiguration.loadConfiguration(spotsConfigFile);
+    }
+
+    private void createGolemsFile() {
+        golemsConfigFile = new File(getDataFolder(), "golems.yml");
+        if(!golemsConfigFile.exists()) {
+            golemsConfigFile.getParentFile().mkdirs();
+            saveResource("golems.yml", false);
+        }
+
+        golemsConfig = YamlConfiguration.loadConfiguration(golemsConfigFile);
     }
 }

@@ -24,6 +24,7 @@ public class Messages {
     public String doubleDrop;
     public String rodArguments;
     public String bowArguments;
+    public String destroyerArguments;
     public String catalystArguments;
     public String fishChanceArguments;
     public String doubleChanceArguments;
@@ -33,6 +34,8 @@ public class Messages {
     public String addedReward;
     public String reload;
     public String inventoryFullTitle;
+    public String cannotUseDestroyer;
+    public String destroyerBroken;
     public List<String> failedCatch;
     public List<String> help;
 
@@ -55,6 +58,7 @@ public class Messages {
         doubleDrop = config.getString("Messages.doubleDrop").replace("&", "§");
         rodArguments = config.getString("Messages.rodArguments").replace("&", "§");
         bowArguments = config.getString("Messages.bowArguments").replace("&", "§");
+        destroyerArguments = config.getString("Messages.destroyerArguments").replace("&", "§");
         catalystArguments = config.getString("Messages.catalystArguments").replace("&", "§");
         fishChanceArguments = config.getString("Messages.fishChanceArguments").replace("&", "§");
         doubleChanceArguments = config.getString("Messages.doubleChanceArguments").replace("&", "§");
@@ -64,6 +68,8 @@ public class Messages {
         addedReward = config.getString("Messages.addedReward").replace("&", "§");
         reload = config.getString("Messages.reload").replace("&", "§");
         inventoryFullTitle = config.getString("Messages.inventoryFullTitle").replace("&", "§");
+        cannotUseDestroyer = config.getString("Messages.cannotUseDestroyer").replace("&", "§");
+        destroyerBroken = config.getString("Messages.destroyerBroken").replace("&", "§");
         failedCatch = config.getStringList("Messages.failedCatch");
         help = config.getStringList("Messages.help");
     }

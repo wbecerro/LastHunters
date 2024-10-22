@@ -15,6 +15,7 @@ Messages:
   doubleDrop: "&b[&cHalloween&b] &eHas conseguido una doble recompensa."
   rodArguments: "&b[&cHalloween&b] &eEl uso es /lasthunters rod <Probabilidad> [Jugador]"
   bowArguments: "&b[&cHalloween&b] &eEl uso es /lasthunters bow <Usos> [Jugador]"
+  destroyerArguments: "&b[&cHalloween&b] &eEl uso es /lasthunters destroyer <Usos> [Jugador]"
   catalystArguments: "&b[&cHalloween&b] &eEl uso es /lasthunters catalyst <Catalizador> [Jugador]"
   fishChanceArguments: "&b[&cHalloween&b] &eEl uso es /lasthunters fishChance <Probabilidad>"
   doubleChanceArguments: "&b[&cHalloween&b] &eEl uso es /lasthunters doubleChance <Probabilidad>"
@@ -24,6 +25,8 @@ Messages:
   addedReward: "&b[&cHalloween&b] &eAñadida recompensa a la rareza %rarity%."
   reload: "&b[&cHalloween&b] &ePlugin recargado con éxito."
   inventoryFullTitle: "&c&l¡Inventario lleno!"
+  cannotUseDestroyer: "&b[&cHalloween&b] &eNo puedes usar el &5&lSegador de almas &eaquí."
+  destroyerBroken: "&b[&cHalloween&b] &eTu &5&lSegador de almas &ese ha roto."
   failedCatch:
     - "&cMás suerte la próxima vez."
     - "&c¿Para que quieres coger esa cosa?"
@@ -35,6 +38,7 @@ Messages:
     - "&b/lasthunters &eMuestra esta página."
     - "&b/lasthunters rod <Probabilidad> [Jugador] &eDa una &6&lCaña Estigia&e."
     - "&b/lasthunters bow <Usos> [Jugador] &eDa un &5&lDestructor de almas&e."
+    - "&b/lasthunters destroyer <Usos> [Jugador] &eDa un &5&lSegador de almas&e."
     - "&b/lasthunters catalyst <Catalizado> [Jugador] &eDa un &6&lCatalizador&e."
     - "&b/lasthunters fishChance <Probabilidad> &eAñade probabilidad de pescar."
     - "&b/lasthunters doubleChance <Probabilidad> &eAñade probabilidad de doble recompensa."
@@ -48,6 +52,7 @@ Config:
   poolMobsRespawnTime: 30
   maxRegionMobs: 15
   maxCannonChickens: 10
+  maxGolems: 7
   enableChests: true
   enableChickens: true
   refillChestsTime: 900
@@ -56,6 +61,8 @@ Config:
   chickenCannonFireTime: 1
   chickenCannonSuccessChance: 35
   lowRodUses: 10
+  HPIcon: "❤"
+  golemSpeed: 1.7
   enabledWorlds:
     - Halloween
 
@@ -81,24 +88,56 @@ Chickens:
       mythic: 2500
       divine: 500
 
-Items:
-  rod:
+Golems:
+  draugr:
+    name: "&5Draugr &f- &c%hp%"
+    weight: 100
+    hp: 3
+    entity: DROWNED
+    glow: false
+    rewards:
+      empty: 2000
+      rare: 4020
+      epic: 2500
+      legendary: 1450
+      mythic: 30
+  banshee:
+    name: "&3Banshee &f- &c%hp%"
+    weight: 2
+    hp: 5
+    entity: STRAY
     glow: true
+    glowingColor: DARK_AQUA
+    rewards:
+      empty: 1000
+      legendary: 6000
+      mythic: 2500
+      divine: 500
+
+Items:
+  rodChanceLore: "&7Probabilidad extra: &e%rodChance%%"
+  doubleChanceLore: "&7Probabilidad de doble: &e%doubleChance%%"
+  rod:
     name: "&6&lCaña Estigia"
     lore:
       - "&7"
       - "&7Caña espiritual que puede interactuar con"
       - "&7los espíritus y hacer que sean más amistosos."
   bow:
-    glow: true
     name: "&5&lDestructor de almas"
     lore:
       - "&7"
       - "&7Este arco puede erradicar"
       - "&7las almas y obtener premios."
     usesLore: "&7Usos: &e%uses%"
-  rodChanceLore: "&7Probabilidad extra: &e%rodChance%%"
-  doubleChanceLore: "&7Probabilidad de doble: &e%doubleChance%%"
+  golemDestroyer:
+    material: WOODEN_HOE
+    name: "&5&lSegador de almas"
+    lore:
+      - ""
+      - "&7Guadaña con la capacidad de golpear y"
+      - "&7castigar a los espíritus malignos."
+    usesLore: "&7Usos: &e%uses%"
 
 Boss:
   mob: Wbe

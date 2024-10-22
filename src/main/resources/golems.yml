@@ -1,0 +1,21 @@
+Spots:
+  spot1:
+    world: Halloween
+    x: 1
+    y: 1
+    z: 1
+  spot2:
+    world: Halloween
+    x: 2
+    y: 1
+    z: 2
+  spot3:
+    world: Halloween
+    x: 3
+    y: 1
+    z: 3
+  spot4:
+    world: Halloween
+    x: 4
+    y: 1
+    z: 4

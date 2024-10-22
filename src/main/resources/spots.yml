@@ -84,3 +84,55 @@ Spots:
     x: -197
     y: 6
     z: 363
+
+Golems:
+  spot1:
+    world: Halloween
+    x: -256
+    y: -15
+    z: 315
+  spot2:
+    world: Halloween
+    x: -248
+    y: -16
+    z: 303
+  spot3:
+    world: Halloween
+    x: -244
+    y: -17
+    z: 293
+  spot4:
+    world: Halloween
+    x: -255
+    y: -16
+    z: 280
+  spot5:
+    world: Halloween
+    x: -257
+    y: -16
+    z: 278
+  spot6:
+    world: Halloween
+    x: -253
+    y: -17
+    z: 267
+  spot7:
+    world: Halloween
+    x: -257
+    y: -17
+    z: 267
+  spot8:
+    world: Halloween
+    x: -229
+    y: -13
+    z: 270
+  spot9:
+    world: Halloween
+    x: -262
+    y: -13
+    z: 260
+  spot10:
+    world: Halloween
+    x: -260
+    y: -17
+    z: 311

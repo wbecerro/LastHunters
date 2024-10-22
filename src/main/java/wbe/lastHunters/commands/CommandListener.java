@@ -1,17 +1,24 @@
 package wbe.lastHunters.commands;
 
+import net.minecraft.world.entity.PathfinderMob;
+import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.entity.animal.SnowGolem;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.craftbukkit.v1_21_R1.entity.CraftSnowman;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Snowman;
 import org.bukkit.inventory.ItemStack;
 import wbe.lastHunters.LastHunters;
-import wbe.lastHunters.items.Bow;
-import wbe.lastHunters.items.Catalyst;
-import wbe.lastHunters.items.CatalystType;
-import wbe.lastHunters.items.Rod;
+import wbe.lastHunters.items.*;
 import wbe.lastHunters.util.Utilities;
+
+import java.util.function.Predicate;
 
 public class CommandListener implements CommandExecutor {
 
@@ -162,7 +169,31 @@ public class CommandListener implements CommandExecutor {
                 ItemStack item = player.getInventory().getItemInMainHand();
                 utilities.addReward(rarity, id, item);
                 player.sendMessage(LastHunters.messages.addedReward.replace("%rarity%", rarity));
+            } else if(args[0].equalsIgnoreCase("destroyer")) {
+                if(!sender.hasPermission("lasthunters.command.destroyer")) {
+                    sender.sendMessage(LastHunters.messages.noPermission);
+                    return false;
+                }
+
+                if(args.length < 2) {
+                    sender.sendMessage(LastHunters.messages.notEnoughArgs);
+                    sender.sendMessage(LastHunters.messages.destroyerArguments);
+                    return false;
+                }
+
+                int uses = Integer.parseInt(args[1]);
+                if(args.length > 2) {
+                    player = Bukkit.getPlayer(args[2]);
+                }
+
+                GolemDestroyer destroyer = new GolemDestroyer(uses);
+                if(player.getInventory().firstEmpty() == -1) {
+                    player.getWorld().dropItem(player.getLocation(), destroyer);
+                } else {
+                    player.getInventory().addItem(destroyer);
+                }
             }
+
         }
 
         return false;

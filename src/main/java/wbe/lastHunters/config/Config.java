@@ -3,14 +3,13 @@ package wbe.lastHunters.config;
 import org.bukkit.*;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Projectile;
 import org.bukkit.inventory.ItemStack;
 import wbe.lastHunters.LastHunters;
 import wbe.lastHunters.config.entities.Chicken;
+import wbe.lastHunters.config.entities.Golem;
 import wbe.lastHunters.config.entities.PoolMob;
-import wbe.lastHunters.config.locations.BowSpot;
-import wbe.lastHunters.config.locations.CatalystSpot;
-import wbe.lastHunters.config.locations.ChestSpot;
-import wbe.lastHunters.config.locations.ChickenCannon;
+import wbe.lastHunters.config.locations.*;
 import wbe.lastHunters.items.CatalystType;
 import wbe.lastHunters.rarities.Rarity;
 import wbe.lastHunters.rarities.Reward;
@@ -24,6 +23,7 @@ public class Config {
     public int poolMobsRespawnTime;
     public int maxRegionMobs;
     public int maxCannonChickens;
+    public int maxGolems;
     public boolean enableChests;
     public boolean enableChickens;
     public int refillChestsTime;
@@ -34,14 +34,20 @@ public class Config {
     public int lowRodUses;
     public List<String> enabledWorlds;
 
-    public boolean rodGlow;
+    public String golemHPIcon;
+    public double golemSpeed;
+
     public String rodName;
     public List<String> rodLore;
 
-    public boolean bowGlow;
     public String bowName;
     public List<String> bowLore;
     public String usesLore;
+
+    public Material golemDestroyerMaterial;
+    public String golemDestroyerName;
+    public List<String> golemDestroyerLore;
+    public String golemDestroyerUsesLore;
 
     public String rodChanceLore;
     public String doubleChanceLore;
@@ -53,6 +59,8 @@ public class Config {
 
     public int maxChickensWeight = 0;
     public int maxPoolWeight = 0;
+    public int maxGolemWeight = 0;
+    public int maxGolemSpots = 0;
 
     public HashMap<String, Rarity> rarities = new HashMap<>();
     public Set<ChickenCannon> cannons = new HashSet<>();
@@ -62,6 +70,9 @@ public class Config {
     public Set<PoolMob> poolMobs = new HashSet<>();
     public Set<CatalystSpot> catalystSpots = new HashSet<>();
     public Set<CatalystType> catalystTypes = new HashSet<>();
+    public Set<Golem> golems = new HashSet<>();
+    public HashMap<Integer, GolemSpot> golemSpots = new HashMap<>();
+    public Set<DestroyerSpot> destroyerSpots = new HashSet<>();
 
     public Config(FileConfiguration config) {
         this.config = config;
@@ -69,6 +80,7 @@ public class Config {
         poolMobsRespawnTime = config.getInt("Config.poolMobsRespawnTime");
         maxRegionMobs = config.getInt("Config.maxRegionMobs");
         maxCannonChickens = config.getInt("Config.maxCannonChickens");
+        maxGolems = config.getInt("Config.maxGolems");
         enableChests = config.getBoolean("Config.enableChests");
         enableChickens = config.getBoolean("Config.enableChickens");
         refillChestsTime = config.getInt("Config.refillChestsTime");
@@ -79,14 +91,20 @@ public class Config {
         lowRodUses = config.getInt("Config.lowRodUses");
         enabledWorlds = config.getStringList("Config.enabledWorlds");
 
-        rodGlow = config.getBoolean("Items.rod.glow");
+        golemHPIcon = config.getString("Config.HPIcon");
+        golemSpeed = config.getDouble("Config.golemSpeed");
+
         rodName = config.getString("Items.rod.name").replace("&", "§");
         rodLore = config.getStringList("Items.rod.lore");
 
-        bowGlow = config.getBoolean("Items.bow.glow");
         bowName = config.getString("Items.bow.name").replace("&", "§");
         bowLore = config.getStringList("Items.bow.lore");
         usesLore = config.getString("Items.bow.usesLore").replace("&", "§");
+
+        golemDestroyerMaterial = Material.valueOf(config.getString("Items.golemDestroyer.material"));
+        golemDestroyerName = config.getString("Items.golemDestroyer.name").replace("&", "§");
+        golemDestroyerLore = config.getStringList("Items.golemDestroyer.lore");
+        golemDestroyerUsesLore = config.getString("Items.golemDestroyer.usesLore").replace("&", "§");
 
         rodChanceLore = config.getString("Items.rodChanceLore").replace("&", "§");
         doubleChanceLore = config.getString("Items.doubleChanceLore").replace("&", "§");
@@ -112,6 +130,9 @@ public class Config {
         loadPoolMobs();
         loadCatalystSpots();
         loadCatalystsTypes();
+        loadGolemSpots();
+        loadGolems();
+        loadDestroyerSpots();
     }
 
     private void loadRarities() {
@@ -248,6 +269,54 @@ public class Config {
             List<String> lore = config.getStringList("Heads." + head + ".lore");
             String signature = config.getString("Heads." + head + ".signature");
             catalystTypes.add(new CatalystType(head, signature, name, lore));
+        }
+    }
+
+    private void loadGolemSpots() {
+        FileConfiguration golemConfig = LastHunters.golemsConfig;
+        Set<String> configCannons = golemConfig.getConfigurationSection("Spots").getKeys(false);
+        int position = 0;
+        for(String golem : configCannons) {
+            position++;
+            World world = Bukkit.getWorld(golemConfig.getString("Spots." + golem + ".world"));
+            double x = golemConfig.getDouble("Spots." + golem + ".x");
+            double y = golemConfig.getDouble("Spots." + golem + ".y");
+            double z = golemConfig.getDouble("Spots." + golem + ".z");
+            Location location = new Location(world, x, y, z);
+            GolemSpot golemSpot = new GolemSpot(golem, position, location);
+            golemSpots.put(position, golemSpot);
+        }
+        maxGolemSpots = position;
+    }
+
+    private void loadGolems() {
+        Set<String> configGolems = config.getConfigurationSection("Golems").getKeys(false);
+        for(String golem : configGolems) {
+            String name = config.getString("Golems." + golem + ".name").replace("&", "§");
+            int weight = config.getInt("Golems." + golem + ".weight");
+            int hp = config.getInt("Golems." + golem + ".hp");
+            EntityType type = EntityType.valueOf(config.getString("Golems." + golem + ".entity"));
+            boolean glow = config.getBoolean("Golems." + golem + ".glow");
+            ChatColor glowColor = null;
+            if(config.contains("Golems." + golem + ".glowingColor")) {
+                glowColor = ChatColor.valueOf(config.getString("Golems." + golem + ".glowingColor"));
+            }
+            maxGolemWeight += weight;
+            HashMap<Rarity, Integer> raritiesWeights = loadRarityWeights("Golems." + golem, config);
+            golems.add(new Golem(golem, name, weight, hp, type, glow, glowColor, raritiesWeights));
+        }
+    }
+
+    private void loadDestroyerSpots() {
+        FileConfiguration spotsConfig = LastHunters.spotsConfig;
+        Set<String> configSpots = spotsConfig.getConfigurationSection("Golems").getKeys(false);
+        for(String spot : configSpots) {
+            World world = Bukkit.getWorld(spotsConfig.getString("Golems." + spot + ".world"));
+            double x = spotsConfig.getDouble("Golems." + spot + ".x");
+            double y = spotsConfig.getDouble("Golems." + spot + ".y");
+            double z = spotsConfig.getDouble("Golems." + spot + ".z");
+            Location location = new Location(world, x, y, z);
+            destroyerSpots.add(new DestroyerSpot(spot, location));
         }
     }
 }

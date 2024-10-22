@@ -8,13 +8,16 @@ import com.sk89q.worldguard.protection.regions.RegionContainer;
 import io.lumine.mythic.api.mobs.MythicMob;
 import io.lumine.mythic.bukkit.MythicBukkit;
 import io.lumine.mythic.core.mobs.MobExecutor;
+import net.minecraft.world.entity.PathfinderMob;
+import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.entity.animal.SnowGolem;
 import org.bukkit.*;
 import org.bukkit.block.*;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Firework;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
+import org.bukkit.craftbukkit.v1_21_R1.entity.CraftLivingEntity;
+import org.bukkit.craftbukkit.v1_21_R1.entity.CraftMob;
+import org.bukkit.craftbukkit.v1_21_R1.entity.CraftSnowman;
+import org.bukkit.entity.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.FireworkMeta;
@@ -27,18 +30,18 @@ import org.bukkit.scoreboard.Team;
 import org.bukkit.util.Vector;
 import wbe.lastHunters.LastHunters;
 import wbe.lastHunters.config.entities.Chicken;
+import wbe.lastHunters.config.entities.Golem;
 import wbe.lastHunters.config.entities.PoolMob;
-import wbe.lastHunters.config.locations.BowSpot;
-import wbe.lastHunters.config.locations.CatalystSpot;
-import wbe.lastHunters.config.locations.ChestSpot;
-import wbe.lastHunters.config.locations.ChickenCannon;
+import wbe.lastHunters.config.locations.*;
 import wbe.lastHunters.hooks.WorldGuardManager;
 import wbe.lastHunters.items.CatalystType;
+import wbe.lastHunters.nms.goals.MoveToPositionGoal;
 import wbe.lastHunters.rarities.Rarity;
 import wbe.lastHunters.rarities.Reward;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.function.Predicate;
 
 public class Utilities {
 
@@ -304,6 +307,16 @@ public class Utilities {
         return null;
     }
 
+    public Golem searchGolem(String id) {
+        for(Golem golem : LastHunters.config.golems) {
+            if(golem.getId().equalsIgnoreCase(id)) {
+                return golem;
+            }
+        }
+
+        return null;
+    }
+
     public void giveReward(Player player, Rarity rarity) {
         if(rarity == null) {
             player.sendMessage(LastHunters.messages.noReward);
@@ -355,6 +368,10 @@ public class Utilities {
     public void spawnChickensFromCannons() {
         Random random = new Random();
         for(ChickenCannon cannon : LastHunters.config.cannons) {
+            if(!cannon.getLocation().getChunk().isLoaded()) {
+                continue;
+            }
+
             if(ChickenCannon.spawnedChickens.get(cannon) >= LastHunters.config.maxCannonChickens) {
                 continue;
             }
@@ -371,8 +388,8 @@ public class Utilities {
                 chicken.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, PotionEffect.INFINITE_DURATION,
                         1, false, false, false));
                 if(randomChicken.getGlowColor() != null) {
-                    LastHunters.teams.get(randomChicken).setColor(randomChicken.getGlowColor());
-                    LastHunters.teams.get(randomChicken).addEntry(chicken.getUniqueId().toString());
+                    LastHunters.chickenTeams.get(randomChicken).setColor(randomChicken.getGlowColor());
+                    LastHunters.chickenTeams.get(randomChicken).addEntry(chicken.getUniqueId().toString());
                 }
             }
             NamespacedKey mobKey = new NamespacedKey(plugin, "specialMob");
@@ -414,12 +431,41 @@ public class Utilities {
                 team = scoreboard.getTeam(chicken.getId());
             }
 
-            LastHunters.teams.put(chicken, team);
+            LastHunters.chickenTeams.put(chicken, team);
+        }
+
+        for(Golem golem : LastHunters.config.golems) {
+            if(!golem.isGlow()) {
+                continue;
+            }
+
+            if(golem.getGlowingColor() == null) {
+                continue;
+            }
+
+            Team team;
+            if(scoreboard.getTeam(golem.getId()) == null) {
+                team = scoreboard.registerNewTeam(golem.getId());
+            } else {
+                team = scoreboard.getTeam(golem.getId());
+            }
+
+            LastHunters.golemTeams.put(golem, team);
         }
     }
 
     public BowSpot getValidSpot(Player player) {
         for(BowSpot spot : LastHunters.config.spots) {
+            if(spot.isPlayerHere(player)) {
+                return spot;
+            }
+        }
+
+        return null;
+    }
+
+    public DestroyerSpot getValidDestroyerSpot(Player player) {
+        for(DestroyerSpot spot : LastHunters.config.destroyerSpots) {
             if(spot.isPlayerHere(player)) {
                 return spot;
             }
@@ -514,6 +560,57 @@ public class Utilities {
         world.strikeLightningEffect(location);
     }
 
+    public void spawnGolems() {
+        if(GolemSpot.spawnedGolems >= LastHunters.config.maxGolems) {
+            return;
+        }
+
+        Random random = new Random();
+        int randomPosition = random.nextInt(LastHunters.config.maxGolemSpots) + 1;
+        GolemSpot golemSpot = LastHunters.config.golemSpots.get(randomPosition);
+        Location location = golemSpot.getLocation().clone();
+        if(!location.getChunk().isLoaded()) {
+            return;
+        }
+
+        NamespacedKey mobKey = new NamespacedKey(plugin, "specialMob");
+        NamespacedKey golemKey = new NamespacedKey(plugin, "golem");
+        NamespacedKey hpKey = new NamespacedKey(plugin, "golemHP");
+
+        Golem golem = getRandomGolem();
+        Mob mob = (Mob) location.getWorld().spawnEntity(location, golem.getType());
+
+        if(golem.isGlow()) {
+            mob.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, PotionEffect.INFINITE_DURATION,
+                    1, false, false, false));
+            if(golem.getGlowingColor() != null) {
+                LastHunters.golemTeams.get(golem).setColor(golem.getGlowingColor());
+                LastHunters.golemTeams.get(golem).addEntry(mob.getUniqueId().toString());
+            }
+        }
+
+        mob.getPersistentDataContainer().set(mobKey, PersistentDataType.BOOLEAN, true);
+        mob.getPersistentDataContainer().set(golemKey, PersistentDataType.STRING, golem.getId());
+        mob.getPersistentDataContainer().set(hpKey, PersistentDataType.INTEGER, golem.getHp());
+
+        mob.getEquipment().clear();
+        mob.setCustomName(golem.getName().replace("%hp%", LastHunters.config.golemHPIcon.repeat(golem.getHp())));
+        mob.setCanPickupItems(false);
+        mob.setCustomNameVisible(true);
+        mob.setRemoveWhenFarAway(true);
+        mob.getPassengers().clear();
+        if(mob instanceof Ageable) {
+            ((Ageable) mob).setAdult();
+        }
+
+        CraftMob craftMob = (CraftMob) mob;
+        net.minecraft.world.entity.Mob nmsMob = craftMob.getHandle();
+        Predicate<Goal> goalPredicate = i -> true;
+        nmsMob.removeAllGoals(goalPredicate);
+        nmsMob.goalSelector.addGoal(1, new MoveToPositionGoal((PathfinderMob) nmsMob, golemSpot));
+        GolemSpot.spawnedGolems++;
+    }
+
     private ChestSpot getRandomChest() {
         Random random = new Random();
         return LastHunters.config.chests.get(random.nextInt(LastHunters.config.chests.size()));
@@ -535,6 +632,24 @@ public class Utilities {
         }
 
         return lastChicken;
+    }
+
+    private Golem getRandomGolem() {
+        Random random = new Random();
+        int randomNumber = random.nextInt(LastHunters.config.maxGolemWeight);
+        int weight = 0;
+        Set<Golem> golems = LastHunters.config.golems;
+        Golem lastGolem = null;
+
+        for(Golem golem : golems) {
+            lastGolem = golem;
+            weight += golem.getWeight();
+            if(randomNumber < weight) {
+                return golem;
+            }
+        }
+
+        return lastGolem;
     }
 
     private PoolMob getRandomPoolMob() {
