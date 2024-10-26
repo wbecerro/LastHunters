@@ -17,6 +17,6 @@ public class EventListeners {
         pluginManager.registerEvents(new BlockPlaceListeners(), plugin);
         pluginManager.registerEvents(new PlayerItemDamageListeners(), plugin);
         pluginManager.registerEvents(new PlayerInteractListeners(), plugin);
-        pluginManager.registerEvents(new EntitiesUnloadListeners(), plugin);
+        pluginManager.registerEvents(new EntityTameListeners(), plugin);
     }
 }

@@ -7,11 +7,13 @@ import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.persistence.PersistentDataType;
 import wbe.lastHunters.LastHunters;
 import wbe.lastHunters.config.entities.Golem;
 import wbe.lastHunters.config.locations.ChickenCannon;
+import wbe.lastHunters.config.locations.GolemSpot;
 import wbe.lastHunters.nms.goals.MoveToPositionGoal;
 
 import java.util.Set;
@@ -26,6 +28,7 @@ public class Scheduler {
         startGroundChickenRemoverScheduler(config, plugin);
         startChestFillScheduler(config, plugin);
         startGolemsSpawnScheduler(config, plugin);
+        startGolemCheckerScheduler(config, plugin);
     }
 
     private static void startPoolMobsScheduler(FileConfiguration config, LastHunters plugin) {
@@ -97,5 +100,27 @@ public class Scheduler {
                 utilities.spawnGolems();
             }
         }, 20L, 20L);
+    }
+
+    private static void startGolemCheckerScheduler(FileConfiguration config, LastHunters plugin) {
+        Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
+            @Override
+            public void run() {
+                int golemsSpawned = 0;
+                NamespacedKey golemKey = new NamespacedKey(plugin, "golem");
+                for(String worldName : LastHunters.config.enabledWorlds) {
+                    World world = Bukkit.getWorld(worldName);
+                    for(LivingEntity livingEntity : world.getLivingEntities()) {
+                        if(livingEntity.getPersistentDataContainer().has(golemKey)) {
+                            golemsSpawned++;
+                        }
+                    }
+                }
+
+                if(GolemSpot.spawnedGolems != golemsSpawned) {
+                    GolemSpot.spawnedGolems = golemsSpawned;
+                }
+            }
+        }, 20L, 10 * 20L);
     }
 }
