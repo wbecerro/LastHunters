@@ -37,7 +37,7 @@ public class CatalystSpot {
         }
 
         if(this.location.getX() == location.getX() && this.location.getY() == location.getY() &&
-                this.location.getY() == location.getY()) {
+                this.location.getZ() == location.getZ()) {
             return true;
         }
 
