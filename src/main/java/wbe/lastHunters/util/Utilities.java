@@ -29,6 +29,7 @@ import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 import org.bukkit.util.Vector;
 import wbe.lastHunters.LastHunters;
+import wbe.lastHunters.config.entities.Boss;
 import wbe.lastHunters.config.entities.Chicken;
 import wbe.lastHunters.config.entities.Golem;
 import wbe.lastHunters.config.entities.PoolMob;
@@ -512,8 +513,9 @@ public class Utilities {
             @Override
             public void run() {
                 MobExecutor mobExecutor = MythicBukkit.inst().getMobManager();
-                MythicMob mythicMob = mobExecutor.getMythicMob(LastHunters.config.bossName).get();
-                mobExecutor.spawnMob(LastHunters.config.bossName, LastHunters.config.bossLocation);
+                Boss boss = getRandomBoss();
+                MythicMob mythicMob = mobExecutor.getMythicMob(boss.getName()).get();
+                mobExecutor.spawnMob(boss.getName(), LastHunters.config.bossLocation);
                 LastHunters.config.bossLocation.getWorld().playSound(LastHunters.config.bossLocation, LastHunters.config.bossAppearSound, 1.0F, 1.0F);
                 Bukkit.broadcastMessage(LastHunters.messages.bossSpawned.replace("%boss%", mythicMob.getDisplayName().get()));
             }
@@ -609,6 +611,24 @@ public class Utilities {
         nmsMob.removeAllGoals(goalPredicate);
         nmsMob.goalSelector.addGoal(1, new MoveToPositionGoal((PathfinderMob) nmsMob, golemSpot));
         GolemSpot.spawnedGolems++;
+    }
+
+    private Boss getRandomBoss() {
+        Random random = new Random();
+        int randomNumber = random.nextInt(LastHunters.config.maxBossesWeight);
+        int weight = 0;
+        Set<Boss> bosses = LastHunters.config.bosses;
+        Boss lastBoss = null;
+
+        for(Boss boss : bosses) {
+            lastBoss = boss;
+            weight += boss.getWeight();
+            if(randomNumber < weight) {
+                return boss;
+            }
+        }
+
+        return lastBoss;
     }
 
     private ChestSpot getRandomChest() {

@@ -6,6 +6,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Projectile;
 import org.bukkit.inventory.ItemStack;
 import wbe.lastHunters.LastHunters;
+import wbe.lastHunters.config.entities.Boss;
 import wbe.lastHunters.config.entities.Chicken;
 import wbe.lastHunters.config.entities.Golem;
 import wbe.lastHunters.config.entities.PoolMob;
@@ -52,7 +53,6 @@ public class Config {
     public String rodChanceLore;
     public String doubleChanceLore;
 
-    public String bossName;
     public Location bossLocation;
     public Sound headDisappearSound;
     public Sound bossAppearSound;
@@ -61,6 +61,7 @@ public class Config {
     public int maxPoolWeight = 0;
     public int maxGolemWeight = 0;
     public int maxGolemSpots = 0;
+    public int maxBossesWeight = 0;
 
     public HashMap<String, Rarity> rarities = new HashMap<>();
     public Set<ChickenCannon> cannons = new HashSet<>();
@@ -73,6 +74,7 @@ public class Config {
     public Set<Golem> golems = new HashSet<>();
     public HashMap<Integer, GolemSpot> golemSpots = new HashMap<>();
     public Set<DestroyerSpot> destroyerSpots = new HashSet<>();
+    public Set<Boss> bosses = new HashSet<>();
 
     public Config(FileConfiguration config) {
         this.config = config;
@@ -109,7 +111,6 @@ public class Config {
         rodChanceLore = config.getString("Items.rodChanceLore").replace("&", "§");
         doubleChanceLore = config.getString("Items.doubleChanceLore").replace("&", "§");
 
-        bossName = config.getString("Boss.mob");
         World world = Bukkit.getWorld(config.getString("Boss.spawn.world"));
         double x = config.getDouble("Boss.spawn.x");
         double y = config.getDouble("Boss.spawn.y");
@@ -133,6 +134,7 @@ public class Config {
         loadGolemSpots();
         loadGolems();
         loadDestroyerSpots();
+        loadBosses();
     }
 
     private void loadRarities() {
@@ -317,6 +319,16 @@ public class Config {
             double z = spotsConfig.getDouble("Golems." + spot + ".z");
             Location location = new Location(world, x, y, z);
             destroyerSpots.add(new DestroyerSpot(spot, location));
+        }
+    }
+
+    private void loadBosses() {
+        Set<String> configBosses = config.getConfigurationSection("Boss.mobs").getKeys(false);
+        for(String boss : configBosses) {
+            String name = config.getString("Boss.mobs." + boss + ".name").replace("&", "§");
+            int weight = config.getInt("Boss.mobs." + boss + ".weight");
+            maxBossesWeight += weight;
+            bosses.add(new Boss(boss, name, weight));
         }
     }
 }

@@ -140,7 +140,52 @@ Items:
     usesLore: "&7Usos: &e%uses%"
 
 Boss:
-  mob: Wbe
+  mobs:
+    prometeo:
+      name: Prometeo
+      weight: 50
+    triton:
+      name: Triton
+      weight: 50
+    jack:
+      name: Jack
+      weight: 100
+    tanatos:
+      name: Tanatos
+      weight: 50
+    aquiles:
+      name: Aquiles
+      weight: 70
+    aracne:
+      name: Aracne
+      weight: 70
+    argus:
+      name: Argus
+      weight: 70
+    medusa:
+      name: Medusa
+      weight: 70
+    miniminotauro:
+      name: MiniMinotauro
+      weight: 100
+    cambiaformas:
+      name: Cambiaformas
+      weight: 100
+    ra:
+      name: Ra
+      weight: 70
+    zeus:
+      name: Zeus
+      weight: 70
+    wbe:
+      name: Wbe
+      weight: 50
+    balor:
+      name: Balor
+      weight: 50
+    tifon:
+      name: Tifon
+      weight: 50
   spawn:
     world: Halloween
     x: -310
