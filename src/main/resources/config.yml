@@ -53,8 +53,10 @@ Config:
   maxRegionMobs: 15
   maxCannonChickens: 10
   maxGolems: 7
+  enablePool: true
   enableChests: true
   enableChickens: true
+  enableGolems: true
   refillChestsTime: 900
   catchFailSound: ENTITY_ALLAY_HURT
   titleTime: 2

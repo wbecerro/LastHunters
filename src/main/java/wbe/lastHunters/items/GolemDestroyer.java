@@ -37,6 +37,7 @@ public class GolemDestroyer extends ItemStack {
         meta.setLore(lore);
         meta.addEnchant(Enchantment.INFINITY, 1, true);
         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        meta.setUnbreakable(true);
         setItemMeta(meta);
 
         setKeys(uses);

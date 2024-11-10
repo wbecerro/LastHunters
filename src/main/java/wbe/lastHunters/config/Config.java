@@ -25,8 +25,10 @@ public class Config {
     public int maxRegionMobs;
     public int maxCannonChickens;
     public int maxGolems;
+    public boolean enablePool;
     public boolean enableChests;
     public boolean enableChickens;
+    public boolean enableGolems;
     public int refillChestsTime;
     public Sound catchFailSound;
     public int titleTime;
@@ -84,7 +86,9 @@ public class Config {
         maxCannonChickens = config.getInt("Config.maxCannonChickens");
         maxGolems = config.getInt("Config.maxGolems");
         enableChests = config.getBoolean("Config.enableChests");
+        enablePool = config.getBoolean("Config.enablePool");
         enableChickens = config.getBoolean("Config.enableChickens");
+        enableGolems = config.getBoolean("Config.enableGolems");
         refillChestsTime = config.getInt("Config.refillChestsTime");
         catchFailSound = Sound.valueOf(config.getString("Config.catchFailSound"));
         titleTime = config.getInt("Config.titleTime");

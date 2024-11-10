@@ -32,6 +32,10 @@ public class Scheduler {
     }
 
     private static void startPoolMobsScheduler(FileConfiguration config, LastHunters plugin) {
+        if(!LastHunters.config.enablePool) {
+            return;
+        }
+
         Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
             @Override
             public void run() {
@@ -58,6 +62,10 @@ public class Scheduler {
     }
 
     private static void startGroundChickenRemoverScheduler(FileConfiguration config, LastHunters plugin) {
+        if(!LastHunters.config.enableChickens) {
+            return;
+        }
+
         NamespacedKey chickenKey = new NamespacedKey(plugin, "chicken");
         Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
             @Override
@@ -94,6 +102,10 @@ public class Scheduler {
     }
 
     private static void startGolemsSpawnScheduler(FileConfiguration config, LastHunters plugin) {
+        if(!LastHunters.config.enableGolems) {
+            return;
+        }
+
         Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
             @Override
             public void run() {
@@ -103,6 +115,10 @@ public class Scheduler {
     }
 
     private static void startGolemCheckerScheduler(FileConfiguration config, LastHunters plugin) {
+        if(!LastHunters.config.enableGolems) {
+            return;
+        }
+
         Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
             @Override
             public void run() {

@@ -35,6 +35,7 @@ public class Bow extends ItemStack {
         lore.add(LastHunters.config.usesLore.replace("%uses%", String.valueOf(uses)));
         meta.setLore(lore);
         meta.addEnchant(Enchantment.INFINITY, 1, true);
+        meta.setUnbreakable(true);
         setItemMeta(meta);
 
         setKeys(uses);
